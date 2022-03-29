@@ -1,0 +1,42 @@
+#ExerciseSearch
+  .labeled.input
+    &.active
+      .label
+        background-color: #d0d0d0
+        border-color: #d0d0d0
+        background-image: none
+        color: rgba(0,0,0,.95)
+  .field.labeled-dropdown
+    display: flex
+    align-content: stretch
+    &:not(:last-of-type)
+      margin-right: 5px
+    &.inline
+      display: inline-flex
+    .label
+      font-size: 1rem
+      border-top-right-radius: 0px
+      border-bottom-right-radius: 0px
+      padding-top: 0.78571429em
+      padding-bottom: 0.78571429em
+      margin: 0
+    .selection.dropdown
+      width: unset
+      border-top-left-radius: 0px
+      border-bottom-left-radius: 0px
+  .buttons
+    margin-top: 1rem
+  .ui.list
+    .item
+      cursor: pointer
+      transition: background-color 400ms, transform 400ms
+      &:hover, &.active
+        transform: translateX(10px)
+
+
+
+.placeholder
+  &.image
+    &.loading
+      height: 0
+

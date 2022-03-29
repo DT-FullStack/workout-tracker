@@ -1,0 +1,27 @@
+import { AnyAction } from 'redux';
+
+export const action = (type: string, payload?: any): AnyAction => ({ type, payload })
+
+export const AUTH = {
+  SIGN_IN: 'SIGN_IN',
+  SIGN_OUT: 'SIGN_OUT',
+  REGISTER: 'REGISTER',
+  SET_TOKEN: "SET_TOKEN"
+}
+export const EXERCISE = {
+  SET_BODYPART: 'SET_BODYPART',
+  SET_EQUIPMENT: 'SET_EQUIPMENT',
+  SET_TARGET: 'SET_TARGET',
+  SET_NAME: 'SET_NAME',
+  SEARCH_RESULTS: 'SEARCH_RESULTS',
+  SELECT_EXERCISE: 'SELECT_EXERCISE'
+}
+export const WORKOUT = {
+  SET_START: 'SET_START',
+  SET_END: 'SET_END',
+  CLEAR_START: 'CLEAR_START',
+  CLEAR_END: 'CLEAR_END',
+  TOGGLE_EXERCISE_SEARCH: 'TOGGLE_EXERCISE_SEARCH',
+  SELECT_EXERCISE: 'SELECT_EXERCISE',
+  ADD_TO_SEQUENCE: 'ADD_TO_SEQUENCE'
+}
