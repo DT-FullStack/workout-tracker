@@ -10,7 +10,7 @@
     "dev": "concurrently npm:dev-*",
     "server": "concurrently npm:dev-server-*",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm run deploy --prefix client && tsc"
+    "heroku-postbuild": "npm run deploy --prefix client && echo \"Client deployed\" && tsc"
   },
   "author": "David Taylor",
   "license": "ISC",
