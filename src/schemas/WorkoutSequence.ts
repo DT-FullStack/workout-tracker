@@ -17,7 +17,7 @@ export const sequenceItemSchema = new Schema<SequenceItem, SequenceItemSchema>({
   reps: Number,
   weight: Number,
   barWeight: Number,
-  assistWeight: Number,
+  weightAssist: Number,
   duration: Number,
   speed: Number,
   distance: Number,
