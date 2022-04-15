@@ -1,14 +1,19 @@
-import axios, { Axios, AxiosRequestConfig, AxiosResponse } from "axios"
+import { AxiosResponse } from "axios"
+import { AppAxios } from './util/AppAxios';
 
 const storage = window.localStorage;
 
-interface AppResponse extends AxiosResponse {
+export interface AppAxiosResponse<T = any> extends AxiosResponse<T> {
   success?: boolean;
   error?: boolean;
   accessToken?: string
 }
-interface AuthResponse extends AppResponse {
-  email?: string
+interface AuthResponse {
+  success?: boolean;
+  error?: boolean;
+  accessToken?: string
+  email?: string,
+  id?: string
 }
 
 export interface SignInRequest {
@@ -19,25 +24,27 @@ export interface RegisterRequest extends SignInRequest {
   password_confirmation: string
 }
 
-export class UserHttp {
+export class UserHttp extends AppAxios {
   constructor() {
+    super({
+      baseURL: '/auth',
+      withCredentials: true,
+    })
     this.api.interceptors.response.use(this.checkResponseForToken)
     this.checkStorageForToken();
   }
-  private api = axios.create({
-    baseURL: '/auth',
-    withCredentials: true,
-  })
 
   //
   // Browser Actions
   private storedToken = (): string | null => {
     return storage.getItem('accessToken');
   }
-  private checkResponseForToken = (response: AppResponse) => {
-    let { accessToken } = response.data;
-    if (accessToken) storage.setItem('accessToken', accessToken);
-    this.setTokenHeader(accessToken);
+  private checkResponseForToken = (response: AppAxiosResponse) => {
+    let { accessToken } = response;
+    if (accessToken) {
+      storage.setItem('accessToken', accessToken);
+      this.setTokenHeader(accessToken);
+    }
     return response;
   }
   private checkStorageForToken = () => {

@@ -1,24 +1,20 @@
 import { EXERCISE } from "redux/actions"
 import { Reducer } from "redux";
-import { BodyPart, BodyPartList, Equipment, EquipmentList, TargetMuscles, TargetMusclesList, Exercise } from "api/ExerciseDB";
-import { searchBy, searchTerm } from "views/exercises/ExerciseSearch";
+import { BodyPart, Equipment, TargetMuscle, Exercise } from "api/ExerciseDB";
+// import { searchBy, searchTerm } from "components/exercises/ExerciseSearch";
 
 
 export interface ExerciseSearchState {
   bodyPart: BodyPart | null
   equipment: Equipment | null
-  target: TargetMuscles | null
+  target: TargetMuscle | null
   name: string | null
 }
 export interface ExerciseState {
-  search: {
-    bodyPart: BodyPart | null
-    equipment: Equipment | null
-    target: TargetMuscles | null
-    name: string | null
-  }
+  search: ExerciseSearchState
   list: Exercise[]
-  current: Exercise | null
+  listParams: Partial<ExerciseSearchState>
+  current: Exercise | null,
 }
 const initial: ExerciseState = {
   search: {
@@ -28,31 +24,33 @@ const initial: ExerciseState = {
     name: null,
   },
   list: [],
-  current: null
+  listParams: {},
+  current: null,
 }
 
-const ExerciseReducer: Reducer<ExerciseState> = (state = initial, { type, payload = {} }) => {
-  const { search, list, current } = state;
+const ExerciseReducer: Reducer<ExerciseState> = (state = initial, { type, payload }) => {
+  const { search } = state;
   switch (type) {
     case EXERCISE.SET_BODYPART:
-      if (payload === search.bodyPart) return state;
       if (payload === 'any') payload = null;
       return { ...state, search: { ...search, bodyPart: payload } }
     case EXERCISE.SET_EQUIPMENT:
-      if (payload === search.equipment) return state;
       if (payload === 'any') payload = null;
       return { ...state, search: { ...search, equipment: payload } }
     case EXERCISE.SET_NAME:
-      if (payload === search.name) return state;
-      if (payload === '') payload = null;
+      if (!payload) payload = null;
       return { ...state, search: { ...search, name: payload } }
     case EXERCISE.SET_TARGET:
-      if (payload === search.target) return state;
       if (payload === 'any') payload = null;
       return { ...state, search: { ...search, target: payload } }
     case EXERCISE.SEARCH_RESULTS:
+      if (!payload) payload = [];
       return { ...state, list: payload };
+    case EXERCISE.SEARCH_PARAMS:
+      if (!payload) payload = {};
+      return { ...state, listParams: payload };
     case EXERCISE.SELECT_EXERCISE:
+      if (!payload) payload = null;
       return { ...state, current: payload }
     default:
       return state;

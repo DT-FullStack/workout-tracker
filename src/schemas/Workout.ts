@@ -1,18 +1,45 @@
-import { Schema, Model, model } from 'mongoose'
-import { Workout } from '../../models/Workout'
+import { Schema, model, Types } from 'mongoose'
+import { Workout as IWorkout } from '../../models/Workout';
+import User from './User';
+import _ from 'lodash';
+import { sequenceItemSchema } from './WorkoutSequence';
+import { AppModel } from './AppModel';
+import { AppDocument, AppQuery } from './AppDocument';
 
-interface WorkoutModel extends Model<Workout> {
-
+interface WorkoutSchema extends AppModel<IWorkout> {
+  findAndPopulate: AppQuery<IWorkout>
 }
 
-const workoutSchema = new Schema<Workout>({
+
+
+export const workoutSchema = new Schema<IWorkout, WorkoutSchema>({
   datetime: {
-    start: Schema.Types.Date,
-    end: Schema.Types.Date
+    start: Number,
+    end: Number
+  },
+  sequenceList: [[sequenceItemSchema]],
+  user: {
+    type: Types.ObjectId,
+    ref: 'User'
   },
 
 })
 
-const Workout = model<Workout, WorkoutModel>('Workout', workoutSchema);
+workoutSchema.statics.findAndPopulate = async function (params: { [key: string]: any }) {
+  return this.find(params).populate({ path: 'sequenceList', populate: { path: 'exercise', model: 'Exercise' } });
+}
+
+workoutSchema.methods.serialize = function () {
+  const { _id, datetime, sequenceList, user } = this;
+  return { _id, datetime, sequenceList, user };
+}
+
+
+workoutSchema.post('save', async function () {
+  await User.findByIdAndUpdate(this.userId, { $push: { workouts: this._id } });
+})
+
+const Workout = model<IWorkout, WorkoutSchema>('Workout', workoutSchema);
+
 
 export default Workout;

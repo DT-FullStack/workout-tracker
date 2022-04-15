@@ -9,6 +9,8 @@ import { env } from 'process'
 import MongoAtlasConnect, { MongoDbOptions } from './database/MongoAtlasConnect'
 import authRouter from './routers/AuthRouter';
 import ErrorHandler from './middleware/ErrorHandler';
+import WorkoutRouter from './routers/WorkoutRouter'
+import ExerciseRouter from './routers/ExerciseRouter'
 
 if (env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -18,10 +20,17 @@ const app = express()
 const getPort = () => env.PORT
 const getHost = () => env.HOST || 'http://localhost'
 
+const serverStartCallback = (host: string, port: string) => {
+  console.log(`Listening at ${host}:${port}`);
+}
 const startServer = () => {
   const port = getPort(), host = getHost();
   if (port) {
-    app.listen(port, () => console.log(`Listening at ${host}:${port}`))
+    try {
+      app.listen(port, () => serverStartCallback(host, port))
+    } catch (error) {
+      console.log(error);
+    }
   }
   else setTimeout(startServer, 1000)
 }
@@ -38,12 +47,13 @@ const mongoOptions = (): MongoDbOptions => ({
 MongoAtlasConnect.initialize(mongoOptions())
 
 app.use(express.static('build/public'))
+app.use(express.static('build/images'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/exercises', (req, res) => {
-  res.json(fs.readFileSync(path.join(__dirname, 'exercises.json')));
-})
+// app.get('/exercises', (req, res) => {
+//   res.json(fs.readFileSync(path.join(__dirname, 'exercises.json')));
+// })
 
 app.use(function (req, res, next) {
   res.header(
@@ -54,6 +64,8 @@ app.use(function (req, res, next) {
 });
 
 app.use('/auth', authRouter);
+app.use('/workouts', WorkoutRouter);
+app.use('/exercises', ExerciseRouter);
 app.use(ErrorHandler)
 
 app.get('/', (req, res) => {
@@ -63,6 +75,5 @@ app.get('/', (req, res) => {
 app.get('**', (req, res) => {
   res.redirect('/')
 })
-
 
 startServer();

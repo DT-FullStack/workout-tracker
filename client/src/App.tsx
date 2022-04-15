@@ -1,17 +1,18 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react'
-import NavBar from './views/nav/NavBar';
+import NavBar from './components/nav/NavBar';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Register from './views/auth/Register';
-import Login from './views/auth/Login';
-import Dashboard from 'views/Dashboard';
-import AuthProvider from 'views/auth/AuthProvider';
-import { AuthGuard } from 'views/auth/AuthGuard';
-import GuestOnly from 'views/auth/GuestOnly';
-import NotFound from 'views/nav/NotFound';
-import ShowWorkout from 'views/workouts/CurrentWorkout';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Dashboard from 'components/Dashboard';
+import AuthProvider from 'components/auth/AuthProvider';
+import { AuthGuard } from 'components/auth/AuthGuard';
+import GuestOnly from 'components/auth/GuestOnly';
+import NotFound from 'components/nav/NotFound';
+import CurrentWorkout from 'components/workouts/CurrentWorkout';
 import "./App.sass"
 import "./semantic/semantic.min.css";
+import NewWorkout from 'components/workouts/NewWorkout';
 
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
             </Route>
             <Route path="dashboard" element={<AuthGuard />}>
               <Route index element={<Dashboard />} />
-              <Route path="workout" element={<ShowWorkout />} />
+              <Route path="workout" element={<CurrentWorkout />} />
+              <Route path="workout/new" element={<NewWorkout />} />
+              {/* <Route path="workout/:workout" element={<CurrentWorkout />} /> */}
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

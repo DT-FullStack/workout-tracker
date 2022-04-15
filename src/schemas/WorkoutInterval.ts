@@ -1,14 +1,18 @@
-import { Schema, Model, model } from 'mongoose'
+import { Schema, Model, model, Types } from 'mongoose'
 import { WorkoutInterval } from '../../models/Workout'
 
-interface WorkoutIntervalModel extends Model<WorkoutInterval> {
-
-}
-
-const workoutSchema = new Schema<WorkoutInterval>({
+const workoutIntervalSchema = new Schema<WorkoutInterval>({
+  exercise: {
+    type: Types.Map,
+    of: String,
+    required: true
+  },
+  duration: { type: Number, required: true },
+  weight: Number,
+  speed: Number,
+  distance: Number,
+  incline: Number,
+  calories: Number,
 })
 
-
-const WorkoutInterval = model<WorkoutInterval, WorkoutIntervalModel>('WorkoutInterval', workoutSchema);
-
-export default WorkoutInterval;
+export default workoutIntervalSchema;

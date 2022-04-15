@@ -1,7 +1,22 @@
-// .workout.display
-//   .datetime
-//     .button
-//       height: 100%
+
+.ui.buttons
+  &.compact
+    .ui.button.icon
+      padding-left: 0.4rem
+      padding-right: 0.4rem
+      box-shadow: none !important
+      border-width: 0px
+  .or.lined
+    &::before
+      border: 1px solid rgba(34,36,38,.15)
+      line-height: 1.5 !important
+      display: block
+    &.blue::before
+      border: 1px solid rgba(33, 133, 208,0.5) !important
+
+.ui.header
+  &.compact
+    margin: 0.5rem 0
 
 .ui.button
   &.fill
@@ -22,6 +37,7 @@
   align-items: center
   margin: 1.5rem 0
   .label
+    font-size: 1.5em
     padding: 0 0.75rem
     &+ .value
       padding-right: 0.3rem
@@ -43,9 +59,60 @@
       border-top-right-radius: .28571429rem
       border-bottom-right-radius: .28571429rem
 
-.sequence.props
-  .toggle.checkbox // corresponds to radio button
-    margin: 0.5rem    
+.exercise
+  &.ui.grid
+    margin-top: 1rem
+    .column.image
+      padding: 0
+      margin-left: -1rem
+      .header
+        margin-top: 1rem
+
+.sequence
+  &.ui.form
+    margin-top: 1rem
+  &.ui.list
+    border: 1px solid rgba(34,36,38,.15)
+    border-radius: 5px
+    margin-top: 1rem
+    overflow: hidden
+    .item.compact
+      padding-top: 0.5rem
+      padding-bottom: 0.5rem
+    & > .item, > .header
+      padding-left: 0.5rem
+      padding-right: 0.5rem
+    & > .header
+      background-color: rgba(34,36,38,.15)
+      line-height: 2
+      margin-bottom: 0
+      &::after
+        content: ' sequence'
+  &.props
+    .toggle.checkbox // corresponds to radio button
+      margin: 0.5rem    
+
   
 .float-right
   float: right !important
+
+.full-width
+  width: 100%
+
+.workout.card.list
+
+.segment.workout.history
+  .card.list
+    margin-top: 1rem
+    .ui.cards
+      margin-top: 0
+      margin-bottom: 0
+      .card
+        margin-bottom: 0
+        &.active
+          cursor: default
+        &:hover:not(.active)
+          cursor: pointer
+        &.active, &:hover
+          z-index: 5
+          transform: translateY(-3px)

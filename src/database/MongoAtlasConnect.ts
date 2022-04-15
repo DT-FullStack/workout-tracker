@@ -11,17 +11,18 @@ export interface MongoDbOptions {
 
 class MongoAtlasConnect {
   static initialize(options: MongoDbOptions) {
-    console.log('MONGO OPTIONS', options);
     return new MongoAtlasConnect(options);
   }
 
   constructor(private dbOptions: MongoDbOptions) {
-    // console.log(dbOptions);
     mongoose.connect(this.getUri(), this.dbOptions.options || {})
-      .then(() => console.log(`Mongo Connection Open`))
+      .then(() => {
+        console.log(`Mongo Connection Open`);
+        console.log(this.getUri())
+      })
       .catch(err => {
         console.log(`Mongo Connection Error!!!`)
-        console.dir(dbOptions);
+        console.log(this.getUri());
         console.log(err)
       })
   }

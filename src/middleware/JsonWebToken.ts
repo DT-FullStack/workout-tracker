@@ -1,7 +1,7 @@
 import { env } from 'process';
 import * as jwt from 'jsonwebtoken'
 import { RequestHandler } from 'express';
-import { User } from '../schemas/User';
+import { User } from '../../models/User';
 
 const secret = env.APP_SECRET || 'development'
 
@@ -13,14 +13,21 @@ export const jwtAuthToken = ({ id, email }: User): string => {
 }
 
 export const jwtRequireAuth: RequestHandler = (req, res, next) => {
-  let token = req.headers['X-ACCESS-TOKEN'];
+  let token = req.headers['x-access-token'];
   if (!token) return res.status(403).send({ error: { token: 'Not provided' } })
   else if (typeof token === 'object') token = token.join();
 
   jwt.verify(token, secret, (err, decoded) => {
     if (err || !decoded || typeof decoded === 'string') return res.status(401).json({ error: { token: 'Unauthorized' } })
+    req.userId = decoded.id;
     next();
   })
+}
+export const jwtUserMatch: RequestHandler = (req, res, next) => {
+  const { userId: tokenId } = req;
+  const { userId: requestId } = req.params;
+  if (tokenId !== requestId) res.status(401).json({ error: { token: 'Token mismatch' } })
+  next();
 }
 
 export const jwtVerifyToken = (token: string) => {

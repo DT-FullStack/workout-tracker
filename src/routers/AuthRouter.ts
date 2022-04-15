@@ -36,13 +36,10 @@ interface SignInRequest extends Request {
 }
 const signIn: RequestHandler = async (req: SignInRequest, res: Response) => {
   const { email, password } = req.body;
-  // @ts-ignore
-  // const token = jwtAuthToken({ id: 'asf', email: 'doctordeetz@gmail.com' });
-  // res.json({ success: true, email: 'doctordeetz@gmail.com', accessToken: token })
   const user = await User.findAndValidate(email, password);
   if (user) {
     const token = jwtAuthToken(user);
-    res.json({ success: true, email: user.email, accessToken: token })
+    res.json({ success: true, id: user.id, email: user.email, accessToken: token })
   } else res.json({ error: { credentials: 'Invalid Credentials' } })
 }
 authRouter.post('/signin', asyncCatch(signIn));
