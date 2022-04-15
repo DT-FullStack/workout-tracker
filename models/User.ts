@@ -1,4 +1,5 @@
-import { Exercise } from "../client/src/api/ExerciseDB";
+
+import { Exercise } from "./Exercise";
 import { Workout } from "./Workout";
 
 export interface User {

@@ -1,10 +1,11 @@
 import { Request, RequestHandler, Response, Router } from "express";
 import User from '../schemas/User';
 import asyncCatch from "../utils/asyncCatch";
-import { Exercise as IExercise } from "../../client/src/api/ExerciseDB";
+import { Exercise as IExercise } from "../../models/Exercise";
 import Exercise from '../schemas/Exercise';
 import { jwtRequireAuth } from '../middleware/JsonWebToken';
 import _ from 'lodash'
+// import { AppRequest } from '../middleware/AppRequest';
 
 const exerciseRouter = Router();
 exerciseRouter.use(jwtRequireAuth);

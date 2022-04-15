@@ -4,6 +4,7 @@ import User from "../schemas/User";
 import asyncCatch from "../utils/asyncCatch";
 import { Workout as IWorkout } from '../../models/Workout';
 import Workout from '../schemas/Workout';
+// import { AppRequest } from "../middleware/AppRequest";
 
 const WorkoutRouter = Router();
 

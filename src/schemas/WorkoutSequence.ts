@@ -2,7 +2,7 @@ import { Schema, Model, model, Types } from 'mongoose'
 import { WorkoutInterval, WorkoutSet } from '../Workout';
 import User from './User';
 import _ from 'lodash';
-import { Exercise as ExerciseI } from '../../client/src/api/ExerciseDB';
+// import { Exercise as ExerciseI } from '../../client/src/api/ExerciseDB';
 import Exercise from './Exercise';
 
 export type SequenceItem = WorkoutSet & WorkoutInterval;

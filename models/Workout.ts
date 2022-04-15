@@ -1,4 +1,4 @@
-import { Exercise } from '../client/src/api/ExerciseDB';
+import { Exercise } from '../models/Exercise';
 
 interface BasicInfo {
   exercise: Exercise,
