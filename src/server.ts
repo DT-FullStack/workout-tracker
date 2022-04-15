@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 import express from 'express'
+import session from 'express-session'
+import fs from 'fs'
 
 import path from 'path'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 import { env } from 'process'
 
 import MongoAtlasConnect, { MongoDbOptions } from './database/MongoAtlasConnect'
@@ -51,6 +54,7 @@ const mongoOptions = (): MongoDbOptions => ({
 
 MongoAtlasConnect.initialize(mongoOptions())
 
+app.use(cookieParser(env.APP_SECRET || 'app secret here'));
 app.use(express.static('build/public'))
 app.use('/images', express.static('images'))
 app.use(bodyParser.json())
@@ -82,3 +86,4 @@ app.get('**', (req, res) => {
 })
 
 startServer();
+

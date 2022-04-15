@@ -11,8 +11,9 @@ function action<P>(type: AUTH, payload?: P): AuthAction<P> { return payload ? { 
 
 
 export const signOut: AuthHandler = () => async (dispatch) => {
-  const { data: { success } } = await userApi.signOut();
-  if (success) dispatch(action(AUTH.SIGN_OUT));
+  const { data } = await userApi.signOut();
+  console.log(data);
+  if (data.success) dispatch(action(AUTH.SIGN_OUT));
 }
 export const signIn: AuthHandler<SignInRequest> = (user) => async (dispatch) => {
   const { data: { success, error, accessToken, email, id } } = await userApi.signIn(user);

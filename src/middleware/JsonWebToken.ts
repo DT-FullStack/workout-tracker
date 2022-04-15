@@ -1,7 +1,9 @@
 import { env } from 'process';
 import * as jwt from 'jsonwebtoken'
+import cookieParser from 'cookie-parser';
 import { RequestHandler } from 'express';
 import { User } from '../../client/src/models/User';
+
 
 const secret = env.APP_SECRET || 'development'
 
@@ -13,7 +15,8 @@ export const jwtAuthToken = ({ id, email }: User): string => {
 }
 
 export const jwtRequireAuth: RequestHandler = (req, res, next) => {
-  let token = req.headers['x-access-token'];
+  let token: string | string[] | undefined | false = req.headers['x-access-token'], cookie = req.signedCookies['X-ACCESS-TOKEN'];
+  if (!token && cookie) token = cookieParser.signedCookie(cookie, secret);
   if (!token) return res.status(403).send({ error: { token: 'Not provided' } })
   else if (typeof token === 'object') token = token.join();
 

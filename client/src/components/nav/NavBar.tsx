@@ -19,7 +19,7 @@ interface NavState extends PropsFromRedux {
 }
 type ClickHandler = (event: React.MouseEvent<HTMLAnchorElement>, data: MenuItemProps) => void
 
-const NavBar = ({ isAuthenticated, active }: NavState) => {
+const NavBar = ({ isAuthenticated, active, signOut }: NavState) => {
   const [activeItem, setActiveItem] = useState(active);
   const onClick: ClickHandler = (ev, { name }) => setActiveItem(name)
 

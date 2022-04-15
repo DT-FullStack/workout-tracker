@@ -31,7 +31,7 @@ const ChunkNavBar = ({ chunks, chunkSize, chunkIndex, setChunkIndex }: ChunkNavB
     <Menu attached="top" className='chunk'>
       <Menu.Item icon disabled={chunkIndex === 0} onClick={decrementIndex} content={<Icon name='arrow left' />} />
       <div ref={menuRef} className="menu chunk body" style={{ overflow: 'hidden' }}>
-        {chunks.map((chunk, index) => <Menu.Item key={index} active={index === chunkIndex} onClick={() => setChunkIndex(index)} content={chunkLabel(index, chunk.length, 10)} />)}
+        {chunks.map((chunk, index) => <Menu.Item key={index} active={index === chunkIndex} onClick={() => setChunkIndex(index)} content={chunkLabel(index, chunk.length, chunkSize)} />)}
       </div>
       <Menu.Item icon disabled={chunkIndex === chunks.length - 1 || chunks.length <= 1} onClick={incrementIndex} content={<Icon name='arrow right' />} />
     </Menu>

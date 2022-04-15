@@ -43,7 +43,7 @@ const Dashboard = ({ history, auth, currentWorkout, selectWorkout, fetchWorkoutH
       <ButtonLink fluid to="/dashboard/workout/new" content="Start New Workout" color="green" />
       <Segment className='workout history'>
         <Header content="Workout History" />
-        <ChunkCardList className='workout card' list={history} renderCard={renderWorkoutListCard} emptyMessage="No saved workouts" />
+        <ChunkCardList className='workout card' chunkSize={6} list={history} renderCard={renderWorkoutListCard} emptyMessage="No saved workouts" />
       </Segment>
     </React.Fragment>
   )

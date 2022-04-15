@@ -36,6 +36,10 @@ export class UserHttp extends AppAxios {
 
   //
   // Browser Actions
+  private getCookie = (): any => {
+    let token = document.cookie.replace(/(?:(?:^|.*;\s*)X-ACCESS-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    console.log(token);
+  }
   private storedToken = (): string | null => {
     return storage.getItem('accessToken');
   }
