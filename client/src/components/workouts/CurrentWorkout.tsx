@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
-import { Button, Menu, Segment } from 'semantic-ui-react';
+import { Button, Header, Menu, Segment } from 'semantic-ui-react';
 import { BackButton } from 'components/nav/Buttons/BackButton';
 import CurrentSequence from './CurrentSequence';
 import ShowWorkout from './ShowWorkout';
@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const mapStateToProps = ({ workouts, exercises }: RootState) => ({
   workout: workouts.current,
+  hasChanges: workouts.hasChanges,
   isSearching: workouts.isSearching,
   justSaved: workouts.saveEventSuccess,
 })
@@ -23,31 +24,32 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 interface CurrentWorkoutProps extends PropsFromRedux { }
 
-const CurrentWorkout = ({ workout, isSearching, justSaved, saveWorkout, resetSaveTracker }: CurrentWorkoutProps) => {
+const CurrentWorkout = ({ workout, isSearching, hasChanges, justSaved, saveWorkout, resetSaveTracker }: CurrentWorkoutProps) => {
+  const buttonText = workout._id !== undefined ? 'Save Changes' : 'Record Workout';
   const nav = useNavigate();
-  useEffect(() => {
-    if (justSaved === true) {
-      resetSaveTracker();
-      nav(-1);
-    }
-  }, [justSaved, resetSaveTracker])
+  // useEffect(() => {
+  //   if (justSaved === true) {
+  //     resetSaveTracker();
+  //     nav(-1);
+  //   }
+  // }, [justSaved, nav, resetSaveTracker])
   return (
     <Segment basic>
       <Menu secondary>
         <Menu.Item content={<BackButton />} />
-        <Menu.Item content={"Current Workout"} />
+        <Menu.Item content={`Current Workout`} />
       </Menu>
-      <Button disabled={workout.sequenceList.length === 0} color='blue' fluid content="Record Workout" onClick={() => { saveWorkout(workout) }} />
-      <ShowWorkout workout={workout} />
+      {hasChanges
+        ? <Button color='green' fluid content={buttonText} onClick={() => { saveWorkout(workout) }} />
+        : <Button disabled fluid content={buttonText} />}
 
-      {/* <React.Fragment> */}
+      <ShowWorkout workout={workout} />
       {isSearching && (
         <Segment>
           <ExerciseSearch />
         </Segment>
       )}
       <CurrentSequence />
-      {/* </React.Fragment> */}
     </Segment>
   )
 }

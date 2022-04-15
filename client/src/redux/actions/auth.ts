@@ -12,23 +12,22 @@ function action<P>(type: AUTH, payload?: P): AuthAction<P> { return payload ? { 
 
 export const signOut: AuthHandler = () => async (dispatch) => {
   const { data } = await userApi.signOut();
-  console.log(data);
   if (data.success) dispatch(action(AUTH.SIGN_OUT));
 }
 export const signIn: AuthHandler<SignInRequest> = (user) => async (dispatch) => {
-  const { data: { success, error, accessToken, email, id } } = await userApi.signIn(user);
+  const { data: { success, error, email, id } } = await userApi.signIn(user);
   if (success) {
-    dispatch(action(AUTH.SIGN_IN, { email, id, accessToken }))
-  } else console.error(error);
+    dispatch(action(AUTH.SIGN_IN, { email, id }))
+  }
 }
 export const registerUser: AuthHandler<RegisterRequest> = (user) => async (dispatch) => {
-  const { data: { success, error, accessToken, email, id } } = await userApi.register(user);
-  if (success) dispatch(action(AUTH.REGISTER, { email, id, accessToken }))
-  else console.error(error);
+  const { data: { success, error, email, id } } = await userApi.register(user);
+  if (success) dispatch(action(AUTH.REGISTER, { email, id }))
+
 }
 export const getToken: AuthHandler = () => async (dispatch) => {
-  const { data: { success, error, accessToken, email, id } } = await userApi.getToken();
-  if (success) dispatch(action(AUTH.SET_TOKEN, { email, id, accessToken }))
-  else console.error(error);
+  const { data: { success, error, email, id } } = await userApi.getToken();
+  if (success) dispatch(action(AUTH.SET_TOKEN, { email, id }))
+
 }
 

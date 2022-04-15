@@ -31,7 +31,7 @@ const Dashboard = ({ history, auth, currentWorkout, selectWorkout, fetchWorkoutH
     }
   }, [auth, fetchWorkoutHistory, history.length])
   const renderWorkoutListCard = (workout: Workout): JSX.Element => <WorkoutListCard active={workout._id === currentWorkout._id}
-    key={workout._id} workout={workout} onClickHandler={() => selectWorkout(workout)}
+    key={workout._id} workout={workout} onClickHandler={() => { if (workout._id !== currentWorkout._id) selectWorkout(workout) }}
     details={workout.sequenceList.length
       ? <React.Fragment>
         {workout.sequenceList.map((sequence, s) => <ShowSequence key={s} compact sequence={sequence} />)}

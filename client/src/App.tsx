@@ -31,7 +31,6 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="workout" element={<CurrentWorkout />} />
               <Route path="workout/new" element={<NewWorkout />} />
-              {/* <Route path="workout/:workout" element={<CurrentWorkout />} /> */}
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

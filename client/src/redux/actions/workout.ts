@@ -3,6 +3,7 @@ import { Workout, WorkoutSet, WorkoutInterval, WorkoutSequence } from '../../mod
 import { Exercise } from '../../models/Exercise';
 import WorkoutDB from 'api/WorkoutDB';
 import { useNavigate } from 'react-router-dom';
+import { WorkoutCursor } from 'redux/reducers/Workout';
 
 const workoutApi = new WorkoutDB();
 
@@ -19,6 +20,7 @@ export const addToSequence: WorkoutAction<WorkoutSet | WorkoutInterval> = (item)
 export const addSequenceToWorkout: WorkoutAction<WorkoutSequence> = (sequence) => {
   if (sequence && sequence.length) return action(WORKOUT.ADD_SEQUENCE_TO_WORKOUT, sequence);
 }
+export const updateSequence: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.UPDATE_SEQUENCE, item);
 
 export const resetSaveTracker: WorkoutAction = () => action(WORKOUT.RESET_SAVE_EVENT);
 export const fetchWorkoutHistory: WorkoutAction = () => async (dispatch, getState) => {
@@ -45,4 +47,11 @@ export const deleteWorkout: WorkoutAction<Workout> = (workout) => async (dispatc
     dispatch(action(WORKOUT.DELETE_WORKOUT, workout._id))
   }
 }
-// export const editWorkout: WorkoutAction<Workout> = (workout) => action(WORKOUT.EDIT_WORKOUT, workout);
+
+export const duplicateWorkout: WorkoutAction<Workout> = (workout) => {
+  const copy: Workout = { ...workout, datetime: {} };
+  delete copy._id;
+  return action(WORKOUT.SELECT_WORKOUT, copy);
+}
+export const setWorkoutCursor: WorkoutAction<WorkoutCursor | void> = (indexArray) => action(WORKOUT.SET_CURSOR_INDEX, indexArray);
+

@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response, Router } from "express";
+import { CookieOptions, Request, RequestHandler, Response, Router } from "express";
 import User from '../schemas/User';
 import { jwtAuthToken, jwtSign, jwtVerifyToken } from '../middleware/JsonWebToken';
 import asyncCatch from "../utils/asyncCatch";
@@ -7,15 +7,18 @@ import { env } from 'process';
 
 const authRouter = Router();
 
-const secret = env.APP_SECRET || 'development'
+export const secret = () => env.APP_SECRET || 'development';
+
 const addCookieToResponse = (token: string, res: Response): void => {
-  res.cookie('X-ACCESS-TOKEN', token, {
+  const options: CookieOptions = {
     httpOnly: true,
     sameSite: true,
-    secure: true,
+    // secure: true,
     signed: true,
     maxAge: 60 * 1000 * 60
-  })
+  };
+  if (env.NODE_ENV !== 'production') options.domain = 'localhost';
+  res.cookie('X-ACCESS-TOKEN', token, options);
 }
 const removeCookie = (res: Response) => {
   res.cookie('X-ACCESS-TOKEN', null, {
@@ -62,8 +65,11 @@ const signIn: RequestHandler = async (req: SignInRequest, res: Response) => {
   if (user) {
     const token = jwtAuthToken(user);
     addCookieToResponse(token, res);
-    res.json({ success: true, id: user.id, email: user.email, accessToken: token })
-  } else res.json({ error: { credentials: 'Invalid Credentials' } })
+    res.json({ success: true, id: user.id, email: user.email })
+  } else {
+    removeCookie(res);
+    res.status(400).json({ error: { credentials: 'Invalid Credentials' } })
+  }
 }
 authRouter.post('/signin', asyncCatch(signIn));
 
@@ -75,13 +81,13 @@ authRouter.get('/signout', (req: Request, res: Response) => {
 
 
 const getToken = async (req: Request, res: Response) => {
-  let token = req.headers['x-access-token'] || cookieParser.signedCookie(req.signedCookies['X-ACCESS-TOKEN'], secret)
+  let token = req.headers['x-access-token'] || cookieParser.signedCookie(req.signedCookies['X-ACCESS-TOKEN'], secret())
   if (!token) res.json({ token: null });
   else {
     if (typeof token === 'object') token = token.join();
     const result = jwtVerifyToken(token) as { id: string, email: string }
     const { id, email } = result;
-    res.json({ accessToken: token, success: true, email, id })
+    res.json({ success: true, email, id })
   }
 }
 authRouter.get('/getToken', asyncCatch(getToken))

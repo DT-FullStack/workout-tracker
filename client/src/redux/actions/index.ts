@@ -3,10 +3,8 @@ import { AppDispatch, RootState } from 'redux/store';
 
 export type AsyncAction = (dispatch: AppDispatch, getState: () => RootState) => Promise<void>;
 export interface Action<T, P = void> extends AnyAction { type: T, payload?: P }
-// export interface Action<T> extends AnyAction { type: T }
 
 export type ActionCreator<A, P> = (payload: P) => Action<A, P> | AsyncAction | void;
-// export type ActionCreator<A> = () => Action<A> | AsyncAction | void;
 export function action<A, P = void>(type: A, payload?: P): Action<A, P> { return payload ? { type, payload } : { type } };
 
 
@@ -37,7 +35,12 @@ export enum WORKOUT {
   SELECT_WORKOUT = 'SELECT_WORKOUT',
   ADD_TO_SEQUENCE = 'ADD_TO_SEQUENCE',
   ADD_SEQUENCE_TO_WORKOUT = 'ADD_SEQUENCE_TO_WORKOUT',
+  UPDATE_SEQUENCE = 'UPDATE_SEQUENCE',
   DELETE_WORKOUT = 'DELETE_WORKOUT',
   SAVE_WORKOUT = 'SAVE_WORKOUT',
   RESET_SAVE_EVENT = 'RESET_SAVE_EVENT',
+  DUPLICATE_WORKOUT = 'DUPLICATE_WORKOUT',
+  EDIT_SET = 'EDIT_SET',
+  EDIT_INTERVAL = 'EDIT_INTERVAL',
+  SET_CURSOR_INDEX = 'SET_CURSOR_INDEX'
 }

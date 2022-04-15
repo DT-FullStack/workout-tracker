@@ -1,45 +1,56 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Divider, Form, Radio } from 'semantic-ui-react'
 import AppNumber from 'components/form/AppNumber'
-import { addToSequence } from '../../redux/actions/workout';
+import { addToSequence, setWorkoutCursor, updateSequence } from '../../redux/actions/workout';
 import { WorkoutInterval } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import { secondsToMinutes } from 'components/utils/AppDateTime'
 
-interface CurrentIntervalProps {
+const mapStateToProps = (state: RootState) => ({})
+const mapDispatchToProps = { addToSequence, setWorkoutCursor, updateSequence }
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+interface CurrentIntervalProps extends PropsFromRedux {
   exercise: Exercise
-  initialDuration?: number;
-  initialWeight?: number
-  initialSpeed?: number
-  initialDistance?: number
-  initialIncline?: number
-  initialCalories?: number
-  addToSequence(interval: WorkoutInterval): void
+  initial?: Partial<WorkoutInterval>
+  // initialDuration?: number;
+  // initialWeight?: number
+  // initialSpeed?: number
+  // initialDistance?: number
+  // initialIncline?: number
+  // initialCalories?: number
+  edit?: boolean
 }
 
-const CurrentInterval = ({ exercise, initialDuration, initialWeight, initialSpeed, initialDistance, initialIncline, initialCalories, addToSequence }: CurrentIntervalProps) => {
-  const [duration, setDuration] = useState(initialDuration || 0)
-  const [weight, setWeight] = useState(initialWeight || 0)
-  const [speed, setSpeed] = useState(initialSpeed || 0)
-  const [distance, setDistance] = useState(initialDistance || 0)
-  const [incline, setIncline] = useState(initialIncline || 0)
-  const [calories, setCalories] = useState(initialDuration || 0)
+const CurrentInterval = ({ exercise, initial = {}, addToSequence, setWorkoutCursor, updateSequence }: CurrentIntervalProps) => {
+  const [duration, setDuration] = useState(initial.duration || 0)
+  const [weight, setWeight] = useState(initial.weight || 0)
+  const [speed, setSpeed] = useState(initial.speed || 0)
+  const [distance, setDistance] = useState(initial.distance || 0)
+  const [incline, setIncline] = useState(initial.incline || 0)
+  const [verticalRise, setVerticalRise] = useState(initial.verticalRise || 0)
+  const [calories, setCalories] = useState(initial.duration || 0)
 
-  const [showingWeight, setShowingWeight] = useState(false)
-  const [showingSpeed, setShowingSpeed] = useState(false)
-  const [showingDistance, setShowingDistance] = useState(false)
-  const [showingIncline, setShowingIncline] = useState(false)
-  const [showingCalories, setShowingCalories] = useState(false)
+  const [showingWeight, setShowingWeight] = useState(weight > 0)
+  const [showingSpeed, setShowingSpeed] = useState(speed > 0)
+  const [showingDistance, setShowingDistance] = useState(distance > 0)
+  const [showingIncline, setShowingIncline] = useState(incline > 0)
+  const [showingVerticalRise, setShowingVerticalRise] = useState(verticalRise > 0)
+  const [showingCalories, setShowingCalories] = useState(calories > 0)
 
   const serialize = (): WorkoutInterval => {
     const serializable: WorkoutInterval = { exercise, duration };
-    if (showingWeight && weight && weight > 0) serializable.weight = weight;
-    if (showingSpeed && speed && speed > 0) serializable.speed = speed;
-    if (showingDistance && distance && distance > 0) serializable.distance = distance;
-    if (showingIncline && incline && incline > 0) serializable.incline = incline;
-    if (showingCalories && calories && calories > 0) serializable.calories = calories;
+    if (showingWeight && weight > 0) serializable.weight = weight;
+    if (showingSpeed && speed > 0) serializable.speed = speed;
+    if (showingDistance && distance > 0) serializable.distance = distance;
+    if (showingIncline && incline > 0) serializable.incline = incline;
+    if (showingVerticalRise && verticalRise > 0) serializable.verticalRise = verticalRise;
+    if (showingCalories && calories > 0) serializable.calories = calories;
     return serializable;
   }
 
@@ -64,12 +75,5 @@ const CurrentInterval = ({ exercise, initialDuration, initialWeight, initialSpee
   )
 }
 
-CurrentInterval.propTypes = {
-  // second: PropTypes.
-}
 
-const mapStateToProps = (state: RootState) => ({})
-
-const mapDispatchToProps = { addToSequence }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentInterval)
+export default connector(CurrentInterval)

@@ -10,15 +10,16 @@ import _ from 'lodash';
 interface ShowSequenceProps {
   sequence: WorkoutSequence
   compact?: boolean
+  index?: number
 }
 
-const ShowSequence = ({ sequence, compact }: ShowSequenceProps) => {
+const ShowSequence = ({ sequence, compact, index }: ShowSequenceProps) => {
   const exercises = _.uniq(sequence.map(item => item.exercise.name));
 
   const renderItem = (key: number, item: WorkoutSet & WorkoutInterval) => (
     item.reps
-      ? <ShowSet key={key} set={item} />
-      : <ShowInterval key={key} interval={item} />
+      ? <ShowSet key={key} index={key} sequenceIndex={index} set={item} />
+      : <ShowInterval key={key} index={key} sequenceIndex={index} interval={item} />
   )
   const compactRender = () => <List.Item className='compact' content={exercises.join(', ')} />
 

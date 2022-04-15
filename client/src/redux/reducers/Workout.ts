@@ -4,8 +4,12 @@ import { Workout, WorkoutSequence } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import _ from 'lodash'
 
+export type WorkoutCursor = [number, number]
+
 interface WorkoutsState {
   current: Workout,
+  cursor?: WorkoutCursor
+  hasChanges?: boolean
   sequence: WorkoutSequence
   exercise: Exercise | null
   history: Workout[]
@@ -25,7 +29,7 @@ const initial: WorkoutsState = {
 }
 
 const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload = {} }) => {
-  const { current, sequence, isSearching, history } = state;
+  const { current, sequence, isSearching, history, cursor } = state;
   const { datetime, sequenceList } = current;
   switch (type) {
     case WORKOUT.FETCH_HISTORY:
@@ -52,8 +56,17 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
           ...current,
           sequenceList: [...sequenceList, payload],
         },
+        hasChanges: true,
         exercise: null
       }
+    case WORKOUT.UPDATE_SEQUENCE:
+      if (!cursor) return { ...state };
+      const [sequenceIndex, itemIndex] = cursor;
+      const outerList = [...sequenceList];
+      const innerList = [...outerList[sequenceIndex]];
+      innerList[itemIndex] = payload;
+      outerList[sequenceIndex] = innerList;
+      return { ...state, current: { ...current, sequenceList: outerList }, cursor: undefined, hasChanges: true };
     case WORKOUT.SELECT_WORKOUT:
       return {
         ...state, current: payload
@@ -65,9 +78,11 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
       let i = _.findIndex(newHistory, (workout) => workout._id === payload._id);
       if (i > -1) newHistory.splice(i, 1, payload);
       else newHistory.push(payload);
-      return { ...state, history: newHistory, saveEventSuccess: true };
+      return { ...state, history: newHistory, saveEventSuccess: true, hasChanges: false };
     case WORKOUT.RESET_SAVE_EVENT:
       return { ...state, saveEventSuccess: false }
+    case WORKOUT.SET_CURSOR_INDEX:
+      return { ...state, cursor: payload }
     default:
       return state;
   }

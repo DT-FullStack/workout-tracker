@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser'
 import { env } from 'process'
 
 import MongoAtlasConnect, { MongoDbOptions } from './database/MongoAtlasConnect'
-import authRouter from './routers/AuthRouter';
+import authRouter, { secret } from './routers/AuthRouter';
 import ErrorHandler from './middleware/ErrorHandler';
 import WorkoutRouter from './routers/WorkoutRouter'
 import ExerciseRouter from './routers/ExerciseRouter'
@@ -54,15 +54,11 @@ const mongoOptions = (): MongoDbOptions => ({
 
 MongoAtlasConnect.initialize(mongoOptions())
 
-app.use(cookieParser(env.APP_SECRET || 'app secret here'));
 app.use(express.static('build/public'))
 app.use('/images', express.static('images'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-// app.get('/exercises', (req, res) => {
-//   res.json(fs.readFileSync(path.join(__dirname, 'exercises.json')));
-// })
+app.use(cookieParser(secret()));
 
 app.use(function (req, res, next) {
   res.header(

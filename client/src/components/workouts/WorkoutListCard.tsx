@@ -6,11 +6,12 @@ import { Button, Card, CardProps, List, ListItemProps } from 'semantic-ui-react'
 import { Workout, WorkoutSet, WorkoutInterval, WorkoutSequence } from '../../models/Workout';
 import { AppDateTime } from 'components/utils/AppDateTime'
 import WorkoutDatetime from './WorkoutDatetime'
-import { deleteWorkout } from '../../redux/actions/workout';
+import { deleteWorkout, duplicateWorkout } from '../../redux/actions/workout';
 import ButtonLink from 'components/nav/ButtonLink'
+import { useNavigate } from 'react-router-dom'
 
 const mapStateToProps = (state: RootState) => ({})
-const mapDispatchToProps = { deleteWorkout }
+const mapDispatchToProps = { deleteWorkout, duplicateWorkout }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -27,12 +28,14 @@ interface WorkoutListCardProps extends PropsFromRedux, CardProps {
   className?: string
 }
 
-const WorkoutListCard = ({ workout, active, details, className = "workout", onClickHandler, editWorkout, deleteWorkout }: WorkoutListCardProps) => {
+const WorkoutListCard = ({ workout, active, details, className = "workout", onClickHandler, editWorkout, deleteWorkout, duplicateWorkout }: WorkoutListCardProps) => {
   if (active) className += ' active blue';
   const sequences = _.flatten(workout.sequenceList);
   const exercises = _.uniq(sequences.map(seq => seq.exercise));
   const workoutBodyParts = _.uniq(exercises.map(ex => _.startCase(`${ex.bodyPart}`)));
   const workoutMuscles = _.uniq(exercises.map(ex => _.startCase(`${ex.target}`)));
+
+  const navigate = useNavigate();
 
   return (
     <Card as="div" onClick={onClickHandler} className={className}>
@@ -42,7 +45,7 @@ const WorkoutListCard = ({ workout, active, details, className = "workout", onCl
           {!active && <div className='right floated'> {new AppDateTime(workout.datetime.start).mini()}</div>}
           {active && <Button.Group compact floated='right'>
             <ButtonLink basic to={"/dashboard/workout"} icon="edit" alt="Edit Workout" />
-            <Button basic icon="copy" alt="Copy as New Workout" />
+            <Button basic icon="copy" alt="Copy as New Workout" onClick={() => { duplicateWorkout(workout); navigate('/dashboard/workout') }} />
             <Button basic icon="trash" alt="Delete Workout" onClick={() => deleteWorkout(workout)} />
           </Button.Group>}
         </Card.Header>

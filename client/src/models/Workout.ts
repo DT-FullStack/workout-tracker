@@ -3,7 +3,7 @@ import { Exercise } from './Exercise';
 interface BasicInfo {
   exercise: Exercise,
   weight?: number
-  assistWeight?: number
+  weightAssist?: number
   barWeight?: number
 }
 
@@ -18,7 +18,7 @@ export interface WorkoutInterval extends BasicInfo {
   verticalRise?: number
   calories?: number
 }
-export type WorkoutSequence = (WorkoutSet | WorkoutInterval)[];
+export type WorkoutSequence = (WorkoutSet & WorkoutInterval)[];
 
 export type WorkoutSequenceList = WorkoutSequence[];
 
