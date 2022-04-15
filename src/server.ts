@@ -50,7 +50,7 @@ const mongoOptions = (): MongoDbOptions => ({
 MongoAtlasConnect.initialize(mongoOptions())
 
 app.use(express.static('build/public'))
-app.use(express.static('build/images'))
+app.use('/images', express.static('images'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
