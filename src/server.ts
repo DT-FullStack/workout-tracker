@@ -17,14 +17,19 @@ if (env.NODE_ENV !== 'production') {
 }
 
 const app = express()
-const getPort = () => env.PORT
+const getPort = () => isProduction() ? env.PORT : '8080';
 const getHost = () => env.HOST || 'http://localhost'
+const isProduction = () => env.HEROKU;
 
 const serverStartCallback = (host: string, port: string) => {
   console.log(`Listening at ${host}:${port}`);
 }
+
+let attempts = 0;
 const startServer = () => {
+  if (attempts > 5) return;
   const port = getPort(), host = getHost();
+  attempts++;
   if (port) {
     try {
       app.listen(port, () => serverStartCallback(host, port))
@@ -32,7 +37,7 @@ const startServer = () => {
       console.log(error);
     }
   }
-  else setTimeout(startServer, 1000)
+  else setTimeout(startServer, 1000 * 5)
 }
 
 const mongoOptions = (): MongoDbOptions => ({
