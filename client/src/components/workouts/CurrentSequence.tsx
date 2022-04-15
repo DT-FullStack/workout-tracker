@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
-import { Exercise } from '../../api/ExerciseDB';
-import { WorkoutSequence } from '../../../../models/Workout';
+import { Exercise } from '../../models/Exercise';
+import { WorkoutSequence } from '../../models/Workout';
 import ShowSequence from './ShowSequence';
 import { Button, Container, Divider, Grid, Header, Segment } from 'semantic-ui-react';
 import AppPlaceholderImage from 'components/utils/AppPlaceholderImage';

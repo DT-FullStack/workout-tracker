@@ -8,6 +8,7 @@
     ],
     "baseUrl": "./src",
     "allowJs": true,
+    "rootDirs": ["src/models"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -23,6 +24,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src","src/models"
   ]
 }

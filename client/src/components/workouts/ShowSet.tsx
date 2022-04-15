@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { List, ListItem, Label } from 'semantic-ui-react';
-import { WorkoutSet } from '../../../../models/Workout';
+import { WorkoutSet } from '../../models/Workout';
 
 interface ShowSetProps {
   set: WorkoutSet

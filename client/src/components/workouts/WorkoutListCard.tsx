@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import _ from 'lodash'
 import { Button, Card, CardProps, List, ListItemProps } from 'semantic-ui-react'
-import { Workout, WorkoutSet, WorkoutInterval, WorkoutSequence } from '../../../../models/Workout';
+import { Workout, WorkoutSet, WorkoutInterval, WorkoutSequence } from '../../models/Workout';
 import { AppDateTime } from 'components/utils/AppDateTime'
 import WorkoutDatetime from './WorkoutDatetime'
 import { deleteWorkout } from '../../redux/actions/workout';

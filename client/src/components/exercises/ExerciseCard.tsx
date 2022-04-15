@@ -1,4 +1,4 @@
-import { Exercise } from 'api/ExerciseDB'
+import { Exercise } from 'models/Exercise'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'

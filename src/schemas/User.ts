@@ -1,7 +1,7 @@
 import { Schema, Model, model, Types } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { AppModel, InstanceMethods } from './AppModel';
-import { User as IUser } from '../../models/User';
+import { User as IUser } from '../../client/src/models/User';
 // import Workout from './Workout'
 // import { Workout as IWorkout } from '../../models/Workout';
 

@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { List, Segment } from 'semantic-ui-react';
-import { Workout, WorkoutSequence } from '../../../../models/Workout';
+import { Workout, WorkoutSequence } from '../../models/Workout';
 import WorkoutDatetime from './WorkoutDatetime';
-import { Exercise } from '../../api/ExerciseDB';
+import { Exercise } from '../../models/Exercise';
 import ExerciseCard from '../exercises/ExerciseCard';
 import ShowSequence from './ShowSequence';
 

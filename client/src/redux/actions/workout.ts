@@ -1,6 +1,6 @@
 import { action, ActionCreator, WORKOUT } from './index';
-import { Workout, WorkoutSet, WorkoutInterval, WorkoutSequence } from '../../../../models/Workout';
-import { Exercise } from '../../../../models/Exercise';
+import { Workout, WorkoutSet, WorkoutInterval, WorkoutSequence } from '../../models/Workout';
+import { Exercise } from '../../models/Exercise';
 import WorkoutDB from 'api/WorkoutDB';
 import { useNavigate } from 'react-router-dom';
 

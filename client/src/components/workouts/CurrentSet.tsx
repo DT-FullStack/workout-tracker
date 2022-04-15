@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Form, Radio } from 'semantic-ui-react';
 import AppNumber from 'components/form/AppNumber';
-import { WorkoutSet } from '../../../../models/Workout';
-import { Exercise } from '../../api/ExerciseDB';
+import { WorkoutSet } from '../../models/Workout';
+import { Exercise } from '../../models/Exercise';
 import { Button } from 'semantic-ui-react';
 import { addToSequence } from 'redux/actions/workout';
 

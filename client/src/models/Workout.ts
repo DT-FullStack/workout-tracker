@@ -1,4 +1,4 @@
-import { Exercise } from '../models/Exercise';
+import { Exercise } from './Exercise';
 
 interface BasicInfo {
   exercise: Exercise,

@@ -1,5 +1,5 @@
 import { Schema, Model, model, Types } from 'mongoose'
-import { WorkoutInterval } from '../../models/Workout'
+import { WorkoutInterval } from '../../client/src/models/Workout'
 
 const workoutIntervalSchema = new Schema<WorkoutInterval>({
   exercise: {

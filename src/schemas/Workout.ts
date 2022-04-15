@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose'
-import { Workout as IWorkout } from '../../models/Workout';
+import { Workout as IWorkout } from '../../client/src/models/Workout';
 import User from './User';
 import _ from 'lodash';
 import { sequenceItemSchema } from './WorkoutSequence';

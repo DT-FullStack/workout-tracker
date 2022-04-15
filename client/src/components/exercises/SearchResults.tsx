@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
-import { Exercise } from '../../api/ExerciseDB';
+import { Exercise } from '../../models/Exercise';
 import ExerciseListItem from './ExerciseListItem';
 import ExerciseCard from './ExerciseCard';
 import ChunkList from 'components/utils/ChunkList';

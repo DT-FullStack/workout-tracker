@@ -1,7 +1,7 @@
 import { env } from 'process';
 import * as jwt from 'jsonwebtoken'
 import { RequestHandler } from 'express';
-import { User } from '../../models/User';
+import { User } from '../../client/src/models/User';
 
 const secret = env.APP_SECRET || 'development'
 

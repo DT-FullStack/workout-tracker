@@ -1,7 +1,7 @@
 import { WORKOUT } from "redux/actions"
 import { Reducer } from "redux";
-import { Workout, WorkoutSequence } from '../../../../models/Workout';
-import { Exercise } from '../../../../models/Exercise';
+import { Workout, WorkoutSequence } from '../../models/Workout';
+import { Exercise } from '../../models/Exercise';
 import _ from 'lodash'
 
 interface WorkoutsState {

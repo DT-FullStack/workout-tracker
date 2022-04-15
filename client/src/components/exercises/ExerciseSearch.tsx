@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Form, Header, Input, Segment } from 'semantic-ui-react'
-import { BodyPart, Equipment, TargetMuscle, BodyPartList, TargetMuscleList, EquipmentList } from '../../api/ExerciseDB';
+import { BodyPart, Equipment, TargetMuscle, BodyPartList, TargetMuscleList, EquipmentList } from '../../models/Exercise';
 import { setBodyPart, setEquipment, setName, setTarget, searchExercises } from '../../redux/actions/exercise';
 import SearchResults from './SearchResults';
 import AppDropdown from '../form/AppDropdown';

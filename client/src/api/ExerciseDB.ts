@@ -1,7 +1,7 @@
 import { memoizeAndDebounce } from './util/ApiCalls';
 import { AppAxios } from "./util/AppAxios";
 import { ExerciseSearchState } from '../redux/reducers/Exercise';
-import { Exercise } from '../../../models/Exercise';
+import { Exercise } from '../models/Exercise';
 
 export type searchBy = 'bodyPart' | 'target' | 'equipment' | 'name';
 export type searchTerm = string | null;

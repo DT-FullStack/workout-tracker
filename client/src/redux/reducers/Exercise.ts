@@ -1,6 +1,6 @@
 import { EXERCISE } from "redux/actions"
 import { Reducer } from "redux";
-import { BodyPart, Equipment, TargetMuscle, Exercise } from "api/ExerciseDB";
+import { BodyPart, Equipment, TargetMuscle, Exercise } from "../../models/Exercise";
 // import { searchBy, searchTerm } from "components/exercises/ExerciseSearch";
 
 

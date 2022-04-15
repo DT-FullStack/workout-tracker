@@ -2,7 +2,7 @@ import { Request, RequestHandler, Router } from "express";
 import { jwtRequireAuth, jwtUserMatch } from '../middleware/JsonWebToken';
 import User from "../schemas/User";
 import asyncCatch from "../utils/asyncCatch";
-import { Workout as IWorkout } from '../../models/Workout';
+import { Workout as IWorkout } from '../../client/src/models/Workout';
 import Workout from '../schemas/Workout';
 // import { AppRequest } from "../middleware/AppRequest";
 

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { Exercise as IExercise } from '../../models/Exercise';
+import { Exercise as IExercise } from '../../client/src/models/Exercise';
 import { AppModel } from './AppModel';
 
 interface ExerciseSchema extends AppModel<IExercise> { }

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { List } from 'semantic-ui-react';
-import { WorkoutSequence, WorkoutSet, WorkoutInterval } from '../../../../models/Workout';
+import { WorkoutSequence, WorkoutSet, WorkoutInterval } from '../../models/Workout';
 import ShowInterval from './ShowInterval';
 import ShowSet from './ShowSet';
 import _ from 'lodash';

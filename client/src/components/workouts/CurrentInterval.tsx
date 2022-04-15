@@ -4,8 +4,8 @@ import { RootState } from 'redux/store'
 import { Button, Divider, Form, Radio } from 'semantic-ui-react'
 import AppNumber from 'components/form/AppNumber'
 import { addToSequence } from '../../redux/actions/workout';
-import { WorkoutInterval } from '../../../../models/Workout';
-import { Exercise } from '../../api/ExerciseDB';
+import { WorkoutInterval } from '../../models/Workout';
+import { Exercise } from '../../models/Exercise';
 import { secondsToMinutes } from 'components/utils/AppDateTime'
 
 interface CurrentIntervalProps {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { List, Label } from 'semantic-ui-react';
 import { humanDuration } from 'components/utils/AppDateTime';
-import { WorkoutInterval } from '../../../../models/Workout';
+import { WorkoutInterval } from '../../models/Workout';
 
 interface ShowIntervalProps {
   interval: WorkoutInterval

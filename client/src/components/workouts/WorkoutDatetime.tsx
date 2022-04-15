@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Card, CardGroup, Header, Icon } from 'semantic-ui-react'
-import { Workout } from '../../../../models/Workout';
+import { Workout } from '../../models/Workout';
 import { AppDateTime } from '../utils/AppDateTime';
 import { startWorkout, endWorkout, clearStart, clearEnd } from '../../redux/actions/workout';
 import { IconButton } from 'components/utils/AppIconButton';

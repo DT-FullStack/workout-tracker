@@ -2,7 +2,7 @@ import { AsyncAction, EXERCISE } from "./";
 import { AppDispatch } from "../store";
 import { Action } from './index';
 import { ExerciseDB } from 'api/ExerciseDB';
-import { BodyPart, Equipment, TargetMuscle, Exercise } from '../../api/ExerciseDB';
+import { BodyPart, Equipment, TargetMuscle, Exercise } from '../../models/Exercise';
 import { ExerciseSearchState } from "redux/reducers/Exercise";
 
 type ExerciseAction<P> = Action<EXERCISE, P>

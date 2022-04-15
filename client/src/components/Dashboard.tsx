@@ -4,7 +4,7 @@ import { RootState } from '../redux/store'
 import { Card, Header, Segment } from 'semantic-ui-react';
 import { ButtonLink } from './nav/ButtonLink';
 // import _ from 'lodash';
-import { Workout } from '../../../models/Workout';
+import { Workout } from '../models/Workout';
 import ChunkCardList from './utils/ChunkCardList';
 import WorkoutListCard from './workouts/WorkoutListCard';
 import { fetchWorkoutHistory, selectWorkout } from '../redux/actions/workout';
