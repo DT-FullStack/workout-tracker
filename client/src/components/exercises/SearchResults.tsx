@@ -30,7 +30,7 @@ const SearchResults = ({ list, listParams, selectExercise }: SearchResultsProps)
       children={<ExerciseSearchDetails exercise={exercise} />}
     />
   return (
-    <ChunkList verticalAlign='middle' header={<SearchResultHeader listLength={list.length} searchParams={listParams} />} list={list} renderItem={renderExercise} />
+    <ChunkList verticalAlign='middle' divided header={<SearchResultHeader listLength={list.length} searchParams={listParams} />} list={list} renderItem={renderExercise} />
   )
 }
 

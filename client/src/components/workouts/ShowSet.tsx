@@ -30,6 +30,7 @@ const ShowSet = ({ workout, cursor, set, index, sequenceIndex, setWorkoutCursor 
     weight || barWeight
       ? (weight || 0) + (barWeight || 0)
       : null;
+
   const renderDisplay = () => <React.Fragment>
     <List.Content >
       <Label.Group>

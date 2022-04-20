@@ -30,7 +30,7 @@ const ExerciseListItem = ({ exercise, activeList, details, children, onClickHand
         <List.Header as={active ? 'h2' : 'h4'} >
           {exercise.name}
         </List.Header>
-        {exercise.bodyPart}
+        {!active && exercise.bodyPart}
         {active && children}
       </List.Content>
       {active && <Button icon='x' basic compact className='clearActive' onClick={(ev) => { ev.stopPropagation(); deselectExercise(exercise) }} />}

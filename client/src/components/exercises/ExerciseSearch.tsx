@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Form, Header, Input, Segment } from 'semantic-ui-react'
@@ -10,10 +10,11 @@ import "./Search.sass"
 import { onDropdownChange, onInputChange } from 'components/form/AppEventHandlers';
 import { closeSearch } from '../../redux/actions/workout';
 
-const mapStateToProps = ({ exercises: { search, current, list } }: RootState) => ({
+const mapStateToProps = ({ workout: { isSearching }, exercises: { search, current, list } }: RootState) => ({
   current,
   search,
-  list
+  list,
+  isSearching
 })
 
 const mapDispatchToProps = { setBodyPart, setEquipment, setName, setTarget, searchExercises, closeSearch }
@@ -22,12 +23,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-//
-// No need to include any props from mapState or mapDispatch
-// They are automatically typed by react-redux
 interface ExerciseSearchProps extends PropsFromRedux { }
 
-const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment, searchExercises, closeSearch }: ExerciseSearchProps) => {
+const ExerciseSearch = ({ search, isSearching, setName, setTarget, setBodyPart, setEquipment, searchExercises, closeSearch }: ExerciseSearchProps) => {
   const { bodyPart, target, equipment, name } = search;
   const activeNameSearch = (): boolean => (name !== null && name !== '');
 
@@ -37,8 +35,10 @@ const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment,
   const onTargetChange: onDropdownChange = (e, { value }) => { setTarget(value as TargetMuscle) }
   const reset = () => { setName(null); setEquipment('any'); setBodyPart('any'); setTarget('any') }
 
+
   return (
-    <Segment id="ExerciseSearch">
+
+    <Segment id="ExerciseSearch" >
       <Header as="h2" >
         Exercise Finder
         <Button basic compact floated='right' icon="x" onClick={() => { closeSearch() }} />
@@ -57,6 +57,7 @@ const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment,
       </Button.Group>
       <Segment content={<SearchResults />} />
     </Segment>
+
   )
 }
 

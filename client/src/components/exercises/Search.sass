@@ -27,24 +27,29 @@
   .buttons
     margin-top: 1rem
   .ui.list
-    > .item
-      position: relative
-      cursor: pointer
-      transition: background-color 400ms, transform 400ms
-      &:hover:not(.active)
-        transform: translateX(10px)
-      &.active
-        cursor: default
-        > .header
-          font-size: 1.4em
-      .clearActive
-        position: absolute
-        top: 5px
-        right: 5px
+    &:not(.bulleted)
+      > .item
+        position: relative
+        cursor: pointer
+        transition: background-color 400ms, transform 400ms
+        &:hover:not(.active)
+          transform: translateX(10px)
+        &.active
+          cursor: default
+          > .header
+            font-size: 1.4em
+        .clearActive
+          position: absolute
+          top: 5px
+          right: 5px
 
+ul
+  margin-left: -1rem
 
 .placeholder
   &.image
     &.loading
       height: 0
 
+    
+    

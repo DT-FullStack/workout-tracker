@@ -43,8 +43,8 @@ const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, setWork
     <List.Item>
       {renderEditOptions()}
       <List.Header content={exercise.name} />
-      {reps && <ShowSet index={index} sequenceIndex={sequenceIndex} set={item} />}
-      {duration && <ShowInterval index={index} sequenceIndex={sequenceIndex} interval={item} />}
+      {reps !== undefined && <ShowSet index={index} sequenceIndex={sequenceIndex} set={item} />}
+      {duration !== undefined && <ShowInterval index={index} sequenceIndex={sequenceIndex} interval={item} />}
     </List.Item>
 
   )
