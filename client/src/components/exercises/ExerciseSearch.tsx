@@ -8,6 +8,7 @@ import SearchResults from './SearchResults';
 import AppDropdown from '../form/AppDropdown';
 import "./Search.sass"
 import { onDropdownChange, onInputChange } from 'components/form/AppEventHandlers';
+import { closeSearch } from '../../redux/actions/workout';
 
 const mapStateToProps = ({ exercises: { search, current, list } }: RootState) => ({
   current,
@@ -15,7 +16,7 @@ const mapStateToProps = ({ exercises: { search, current, list } }: RootState) =>
   list
 })
 
-const mapDispatchToProps = { setBodyPart, setEquipment, setName, setTarget, searchExercises }
+const mapDispatchToProps = { setBodyPart, setEquipment, setName, setTarget, searchExercises, closeSearch }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -26,7 +27,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 // They are automatically typed by react-redux
 interface ExerciseSearchProps extends PropsFromRedux { }
 
-const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment, searchExercises }: ExerciseSearchProps) => {
+const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment, searchExercises, closeSearch }: ExerciseSearchProps) => {
   const { bodyPart, target, equipment, name } = search;
   const activeNameSearch = (): boolean => (name !== null && name !== '');
 
@@ -34,10 +35,14 @@ const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment,
   const onEquipmentChange: onDropdownChange = (e, { value }) => { setEquipment(value as Equipment) }
   const onBodyPartChange: onDropdownChange = (e, { value }) => { setBodyPart(value as BodyPart) }
   const onTargetChange: onDropdownChange = (e, { value }) => { setTarget(value as TargetMuscle) }
+  const reset = () => { setName(null); setEquipment('any'); setBodyPart('any'); setTarget('any') }
 
   return (
-    <div id="ExerciseSearch">
-      <Header as="h3" content="Search for Exercises" />
+    <Segment id="ExerciseSearch">
+      <Header as="h2" >
+        Exercise Finder
+        <Button basic compact floated='right' icon="x" onClick={() => { closeSearch() }} />
+      </Header>
       <Form>
         <Form.Field>
           <Input label="Search by Name" className={activeNameSearch() ? 'active' : ''} value={name ? name : ''} onChange={onNameChange} />
@@ -48,9 +53,10 @@ const ExerciseSearch = ({ search, setName, setTarget, setBodyPart, setEquipment,
       </Form>
       <Button.Group >
         <Button content="Search" color="green" onClick={() => searchExercises({ name, bodyPart, target, equipment })} />
+        <Button content="Reset" onClick={() => reset()} />
       </Button.Group>
       <Segment content={<SearchResults />} />
-    </div>
+    </Segment>
   )
 }
 

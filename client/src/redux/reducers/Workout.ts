@@ -9,9 +9,8 @@ export type WorkoutCursor = [number, number]
 interface WorkoutsState {
   current: Workout,
   cursor?: WorkoutCursor
-  hasChanges?: boolean
-  sequence: WorkoutSequence
   exercise: Exercise | null
+  hasChanges?: boolean
   history: Workout[]
   isSearching: boolean
   saveEventSuccess: boolean
@@ -21,40 +20,36 @@ const initial: WorkoutsState = {
     datetime: {},
     sequenceList: []
   },
-  isSearching: false,
   exercise: null,
-  sequence: [],
+  isSearching: false,
   history: [],
   saveEventSuccess: false
 }
 
-const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload = {} }) => {
-  const { current, sequence, isSearching, history, cursor } = state;
+const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload = null }) => {
+  const { current, isSearching, history, cursor } = state;
   const { datetime, sequenceList } = current;
   switch (type) {
     case WORKOUT.FETCH_HISTORY:
       return { ...state, history: payload }
     case WORKOUT.SET_START:
-      return { ...state, current: { ...current, datetime: { ...datetime, start: payload } } }
+      console.log(payload);
+      return { ...state, hasChanges: true, current: { ...current, datetime: { ...datetime, start: payload } } }
     case WORKOUT.SET_END:
-      return { ...state, current: { ...current, datetime: { ...datetime, end: payload } } }
-    case WORKOUT.CLEAR_START:
-      return { ...state, current: { ...current, datetime: { ...datetime, start: undefined } } }
-    case WORKOUT.CLEAR_END:
-      return { ...state, current: { ...current, datetime: { ...datetime, end: undefined } } }
+      return { ...state, hasChanges: true, current: { ...current, datetime: { ...datetime, end: payload } } }
+    case WORKOUT.OPEN_SEARCH:
+      let newPosition = payload ? [...payload] : cursor ? [...cursor] : undefined;
+      return { ...state, isSearching: true, exercise: null, cursor: newPosition };
+    case WORKOUT.CLOSE_SEARCH:
+      return { ...state, isSearching: false }
     case WORKOUT.SELECT_EXERCISE:
       return { ...state, exercise: payload, isSearching: false }
-    case WORKOUT.TOGGLE_EXERCISE_SEARCH:
-      return { ...state, isSearching: !isSearching }
-    case WORKOUT.ADD_TO_SEQUENCE:
-      return { ...state, sequence: [...sequence, payload] }
-    case WORKOUT.ADD_SEQUENCE_TO_WORKOUT:
+    case WORKOUT.NEW_SEQUENCE:
       return {
         ...state,
-        sequence: [],
         current: {
           ...current,
-          sequenceList: [...sequenceList, payload],
+          sequenceList: [...sequenceList, []],
         },
         hasChanges: true,
         exercise: null
@@ -66,7 +61,7 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
       const innerList = [...outerList[sequenceIndex]];
       innerList[itemIndex] = payload;
       outerList[sequenceIndex] = innerList;
-      return { ...state, current: { ...current, sequenceList: outerList }, cursor: undefined, hasChanges: true };
+      return { ...state, current: { ...current, sequenceList: outerList }, cursor: undefined, hasChanges: true, exercise: null };
     case WORKOUT.SELECT_WORKOUT:
       return {
         ...state, current: payload
@@ -82,6 +77,7 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
     case WORKOUT.RESET_SAVE_EVENT:
       return { ...state, saveEventSuccess: false }
     case WORKOUT.SET_CURSOR_INDEX:
+      console.log(payload);
       return { ...state, cursor: payload }
     default:
       return state;

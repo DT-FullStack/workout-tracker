@@ -38,9 +38,9 @@ interface SearchRequest extends Request {
     target?: string
   }
 }
-const search: RequestHandler = async (req: SearchRequest, res) => {
-  // console.log(req.body);
-  const exercises = await Exercise.find(req.body);
+const search: RequestHandler = async ({ body: params }: SearchRequest, res) => {
+  const query = Exercise.getFindQuery(params);
+  const exercises = await Exercise.find(query);
 
   res.json(exercises);
 }

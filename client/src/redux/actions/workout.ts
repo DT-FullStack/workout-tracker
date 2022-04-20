@@ -11,15 +11,11 @@ type WorkoutAction<P = void> = ActionCreator<WORKOUT, P>
 
 export const startWorkout: WorkoutAction<number> = (timestamp) => action(WORKOUT.SET_START, timestamp);
 export const endWorkout: WorkoutAction<number> = (timestamp) => action(WORKOUT.SET_END, timestamp);
-export const clearStart: WorkoutAction = () => action(WORKOUT.CLEAR_START);
-export const clearEnd: WorkoutAction = () => action(WORKOUT.CLEAR_END);
+export const clearStart: WorkoutAction<null> = () => action(WORKOUT.SET_START, null);
+export const clearEnd: WorkoutAction<null> = () => action(WORKOUT.SET_END, null);
 
 export const selectExerciseForWorkout: WorkoutAction<Exercise> = (exercise) => action(WORKOUT.SELECT_EXERCISE, exercise)
-export const toggleExerciseSearch: WorkoutAction = () => action(WORKOUT.TOGGLE_EXERCISE_SEARCH)
 export const addToSequence: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.ADD_TO_SEQUENCE, item);
-export const addSequenceToWorkout: WorkoutAction<WorkoutSequence> = (sequence) => {
-  if (sequence && sequence.length) return action(WORKOUT.ADD_SEQUENCE_TO_WORKOUT, sequence);
-}
 export const updateSequence: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.UPDATE_SEQUENCE, item);
 
 export const resetSaveTracker: WorkoutAction = () => action(WORKOUT.RESET_SAVE_EVENT);
@@ -28,7 +24,7 @@ export const fetchWorkoutHistory: WorkoutAction = () => async (dispatch, getStat
   if (id) {
     const { data: workouts } = await workoutApi.fetchList(id);
     dispatch(action(WORKOUT.FETCH_HISTORY, workouts));
-  }
+  } else dispatch(action(WORKOUT.FETCH_HISTORY, []));
 }
 export const saveWorkout: WorkoutAction<Workout> = (workout) => async (dispatch, getState) => {
   const { id: userId } = getState().auth;
@@ -47,6 +43,8 @@ export const deleteWorkout: WorkoutAction<Workout> = (workout) => async (dispatc
     dispatch(action(WORKOUT.DELETE_WORKOUT, workout._id))
   }
 }
+export const openSearch: WorkoutAction<WorkoutCursor | void> = (indexArray) => action(WORKOUT.OPEN_SEARCH, indexArray);
+export const closeSearch: WorkoutAction = () => action(WORKOUT.CLOSE_SEARCH);
 
 export const duplicateWorkout: WorkoutAction<Workout> = (workout) => {
   const copy: Workout = { ...workout, datetime: {} };

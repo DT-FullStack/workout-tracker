@@ -3,20 +3,18 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Header, Menu, Segment } from 'semantic-ui-react';
 import { BackButton } from 'components/nav/Buttons/BackButton';
-import CurrentSequence from './CurrentSequence';
+import CurrentSequence from './CurrentSequenceItem';
 import ShowWorkout from './ShowWorkout';
 import ExerciseSearch from 'components/exercises/ExerciseSearch';
 import { saveWorkout, resetSaveTracker } from '../../redux/actions/workout';
-import { useNavigate } from 'react-router-dom';
 
-const mapStateToProps = ({ workouts, exercises }: RootState) => ({
-  workout: workouts.current,
-  hasChanges: workouts.hasChanges,
-  isSearching: workouts.isSearching,
-  justSaved: workouts.saveEventSuccess,
+const mapStateToProps = ({ workout, exercises }: RootState) => ({
+  workout: workout.current,
+  hasChanges: workout.hasChanges,
+  isSearching: workout.isSearching,
 })
 
-const mapDispatchToProps = { saveWorkout, resetSaveTracker }
+const mapDispatchToProps = { saveWorkout }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -24,15 +22,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 interface CurrentWorkoutProps extends PropsFromRedux { }
 
-const CurrentWorkout = ({ workout, isSearching, hasChanges, justSaved, saveWorkout, resetSaveTracker }: CurrentWorkoutProps) => {
+const CurrentWorkout = ({ workout, isSearching, hasChanges, saveWorkout }: CurrentWorkoutProps) => {
   const buttonText = workout._id !== undefined ? 'Save Changes' : 'Record Workout';
-  const nav = useNavigate();
-  // useEffect(() => {
-  //   if (justSaved === true) {
-  //     resetSaveTracker();
-  //     nav(-1);
-  //   }
-  // }, [justSaved, nav, resetSaveTracker])
   return (
     <Segment basic>
       <Menu secondary>
@@ -43,13 +34,7 @@ const CurrentWorkout = ({ workout, isSearching, hasChanges, justSaved, saveWorko
         ? <Button color='green' fluid content={buttonText} onClick={() => { saveWorkout(workout) }} />
         : <Button disabled fluid content={buttonText} />}
 
-      <ShowWorkout workout={workout} />
-      {isSearching && (
-        <Segment>
-          <ExerciseSearch />
-        </Segment>
-      )}
-      <CurrentSequence />
+      <ShowWorkout editable workout={workout} />
     </Segment>
   )
 }

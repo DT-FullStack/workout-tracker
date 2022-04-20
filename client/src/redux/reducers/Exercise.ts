@@ -1,7 +1,7 @@
 import { EXERCISE } from "redux/actions"
 import { Reducer } from "redux";
 import { BodyPart, Equipment, TargetMuscle, Exercise } from "../../models/Exercise";
-// import { searchBy, searchTerm } from "components/exercises/ExerciseSearch";
+import _ from 'lodash';
 
 
 export interface ExerciseSearchState {
@@ -15,6 +15,7 @@ export interface ExerciseState {
   list: Exercise[]
   listParams: Partial<ExerciseSearchState>
   current: Exercise | null,
+  active: string[]
 }
 const initial: ExerciseState = {
   search: {
@@ -26,10 +27,11 @@ const initial: ExerciseState = {
   list: [],
   listParams: {},
   current: null,
+  active: []
 }
 
 const ExerciseReducer: Reducer<ExerciseState> = (state = initial, { type, payload }) => {
-  const { search } = state;
+  const { search, active } = state;
   switch (type) {
     case EXERCISE.SET_BODYPART:
       if (payload === 'any') payload = null;
@@ -49,9 +51,13 @@ const ExerciseReducer: Reducer<ExerciseState> = (state = initial, { type, payloa
     case EXERCISE.SEARCH_PARAMS:
       if (!payload) payload = {};
       return { ...state, listParams: payload };
+    case EXERCISE.TOGGLE_EXERCISE:
+      const alreadyActive = active.includes(payload._id);
+      return { ...state, active: alreadyActive ? _.without(active, payload._id) : [...active, payload._id] }
+    case EXERCISE.DESELECT_EXERCISE:
+      return { ...state, active: _.without(active, payload._id) }
     case EXERCISE.SELECT_EXERCISE:
-      if (!payload) payload = null;
-      return { ...state, current: payload }
+      return { ...state, active: [...active, payload._id] }
     default:
       return state;
   }

@@ -1,52 +1,67 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
-import { List } from 'semantic-ui-react';
+import { Button, List } from 'semantic-ui-react';
 import { WorkoutSequence, WorkoutSet, WorkoutInterval } from '../../models/Workout';
 import ShowInterval from './ShowInterval';
 import ShowSet from './ShowSet';
 import _ from 'lodash';
+import { setWorkoutCursor, openSearch } from '../../redux/actions/workout';
+import ExerciseSearch from 'components/exercises/ExerciseSearch';
+import CurrentSequenceItem from './CurrentSequenceItem';
+import ShowSequenceItem from './ShowSequenceItem';
 
-interface ShowSequenceProps {
+const mapStateToProps = ({ workout, auth }: RootState) => ({
+  isSearching: workout.isSearching,
+  cursor: workout.cursor
+})
+const mapDispatchToProps = { setWorkoutCursor, openSearch }
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+interface ShowSequenceProps extends PropsFromRedux {
   sequence: WorkoutSequence
   compact?: boolean
-  index?: number
+  index: number
+  editable?: boolean
 }
 
-const ShowSequence = ({ sequence, compact, index }: ShowSequenceProps) => {
+const ShowSequence = ({ sequence, compact, index, editable, isSearching, cursor, openSearch, setWorkoutCursor }: ShowSequenceProps) => {
   const exercises = _.uniq(sequence.map(item => item.exercise.name));
-
-  const renderItem = (key: number, item: WorkoutSet & WorkoutInterval) => (
-    item.reps
-      ? <ShowSet key={key} index={key} sequenceIndex={index} set={item} />
-      : <ShowInterval key={key} index={key} sequenceIndex={index} interval={item} />
-  )
   const compactRender = () => <List.Item className='compact' content={exercises.join(', ')} />
+  const headerText = () => sequence.length
+    ? _.uniq(sequence.map(item => item.exercise.bodyPart)).join(', ')
+    : 'New workout';
+  const hasCursor = () => cursor && cursor[0] === index;
 
   return (
     <React.Fragment>
-      {sequence.length ?
-        <List className='sequence' divided>
-          <List.Header as="h3" content={_.uniq(sequence.map(item => item.exercise.bodyPart)).join(', ')} />
-          {compact
-            ? compactRender()
-            : sequence.map((item, i) => renderItem(i, item as WorkoutSet & WorkoutInterval))
-
-          }
-        </List>
-        : <div>Add any combination of sets and intervals</div>
+      <List className='sequence' divided>
+        <List.Header as="h3" content={headerText()} />
+        {compact
+          ? compactRender()
+          : sequence.map((item, i) => <ShowSequenceItem key={i} index={i} sequenceIndex={index} item={item} />)
+        }
+      </List>
+      {editable &&
+        <React.Fragment>
+          <Button.Group fluid className='bottom attached' basic >
+            <Button icon="plus" alt="Add new exercise" onClick={() => { openSearch([index, sequence.length]); }} />
+            <Button icon="copy" onClick={() => { }} />
+            <Button icon="trash" onClick={() => { }} />
+            <Button icon="angle double down" onClick={() => { }} />
+          </Button.Group>
+          <CurrentSequenceItem />
+        </React.Fragment>
       }
+      {isSearching && hasCursor() && <ExerciseSearch />}
     </React.Fragment>
 
   )
 }
 
-ShowSequence.propTypes = {
-  // second: PropTypes.
-}
 
-const mapStateToProps = (state: RootState) => ({})
 
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowSequence)
+export default connector(ShowSequence)

@@ -17,6 +17,19 @@
 .ui.header
   &.compact
     margin: 0.5rem 0
+  .button.icon
+    font-size: 1em
+    &:first-of-type
+      margin-left: 0.4rem
+    &.compact
+      box-shadow: none !important
+      border-width: 0px
+      padding: 0.4rem
+      &:hover
+        border-width: 0px
+        box-shadow: none !important
+
+
 
 .ui.button
   &.fill
@@ -73,8 +86,8 @@
     margin-top: 1rem
   &.ui.list
     border: 1px solid rgba(34,36,38,.15)
-    border-radius: 5px
-    margin-top: 1rem
+    border-radius: 5px 5px 0 0
+    margin: 1rem -1px 0 -1px
     overflow: hidden
     .item.compact
       padding-top: 0.5rem
@@ -99,7 +112,11 @@
 .full-width
   width: 100%
 
-.workout.card.list
+.ui.list
+  &[class*="middle aligned"]
+    > .item
+      display: flex
+      align-items: center
 
 .segment.workout.history
   .card.list
@@ -116,3 +133,7 @@
         &.active, &:hover
           z-index: 5
           transform: translateY(-3px)
+
+.image
+  &.exercise-image
+    transition: width 200ms

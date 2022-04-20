@@ -11,10 +11,10 @@ import { fetchWorkoutHistory, selectWorkout } from '../redux/actions/workout';
 import ShowSequence from './workouts/ShowSequence';
 // import AppIconButton from './utils/AppIconButton';
 
-const mapStateToProps = ({ workouts, auth }: RootState) => ({
-  history: workouts.history,
+const mapStateToProps = ({ workout, auth }: RootState) => ({
+  history: workout.history,
   auth,
-  currentWorkout: workouts.current
+  currentWorkout: workout.current
 })
 const mapDispatchToProps = { fetchWorkoutHistory, selectWorkout }
 
@@ -26,15 +26,13 @@ interface DashboardProps extends PropsFromRedux { }
 
 const Dashboard = ({ history, auth, currentWorkout, selectWorkout, fetchWorkoutHistory }: DashboardProps) => {
   useEffect(() => {
-    if (auth.authenticated && history.length === 0) {
-      fetchWorkoutHistory()
-    }
-  }, [auth, fetchWorkoutHistory, history.length])
+    fetchWorkoutHistory()
+  }, [auth.authenticated, auth.id, fetchWorkoutHistory])
   const renderWorkoutListCard = (workout: Workout): JSX.Element => <WorkoutListCard active={workout._id === currentWorkout._id}
     key={workout._id} workout={workout} onClickHandler={() => { if (workout._id !== currentWorkout._id) selectWorkout(workout) }}
     details={workout.sequenceList.length
       ? <React.Fragment>
-        {workout.sequenceList.map((sequence, s) => <ShowSequence key={s} compact sequence={sequence} />)}
+        {workout.sequenceList.map((sequence, s) => <ShowSequence key={s} index={s} compact sequence={sequence} />)}
       </React.Fragment>
       : <Card fluid content="No sets or intervals" />}
   />

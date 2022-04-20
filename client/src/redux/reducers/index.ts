@@ -7,5 +7,5 @@ import WorkoutsReducer from './Workout';
 export default combineReducers({
   auth: authReducer,
   exercises: ExercisesReducer,
-  workouts: WorkoutsReducer
+  workout: WorkoutsReducer
 })

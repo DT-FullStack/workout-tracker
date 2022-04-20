@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import { Placeholder } from 'semantic-ui-react';
+import { Image, Placeholder, StrictImageProps } from 'semantic-ui-react';
 
-interface AppPlaceholderImageProps {
-  srcUrl: string
+export interface AppPlaceholderImageProps extends StrictImageProps {
+  src: string
   fluid?: boolean
   placeholderStyle?: { [key: string]: string }
-  fullWidth?: boolean
+  // fullWidth?: boolean
   altText: string
 }
 
-export const AppPlaceholderImage = ({ srcUrl, fluid, placeholderStyle, fullWidth, altText }: AppPlaceholderImageProps) => {
+export const AppPlaceholderImage = ({ fluid, placeholderStyle, altText, ...imageProps }: AppPlaceholderImageProps) => {
   const [imageLoading, setImageLoading] = useState(true);
   const [imageClassName, setImageClassName] = useState('placeholder image loading');
   useEffect(() => {
     let className = 'placecholder image';
     if (imageLoading) className += ' loading';
-    if (fullWidth) className += ' full-width';
     setImageClassName(className);
-    // if (!imageLoading) setImageClassName('placeholder image'+` ${width}`);
-  }, [imageLoading, fullWidth, setImageClassName]);
+  }, [imageLoading, setImageClassName]);
   return (
     <React.Fragment>
       {imageLoading && <Placeholder style={placeholderStyle} fluid={fluid}>
         <Placeholder.Image square />
       </Placeholder>}
-      <img className={imageClassName} alt={altText} src={srcUrl} onLoad={() => setImageLoading(false)} />
+      <Image className={imageClassName} style={placeholderStyle} alt={altText} {...imageProps} onLoad={() => setImageLoading(false)} />
     </React.Fragment>
   )
 }

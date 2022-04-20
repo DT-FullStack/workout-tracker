@@ -14,16 +14,16 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 interface ShowWorkoutProps extends PropsFromRedux {
   workout: Workout
-  collapsible?: boolean
+  editable?: boolean
 }
 
-const ShowWorkout = ({ workout, collapsible }: ShowWorkoutProps) => {
+const ShowWorkout = ({ workout, editable }: ShowWorkoutProps) => {
   const { sequenceList } = workout;
   return (
     <Segment className='workout display' basic>
       <WorkoutDatetime workout={workout} />
       <Segment basic>
-        {sequenceList.length ? sequenceList.map((sequence, s) => <ShowSequence key={s} index={s} sequence={sequence} />) : <List.Item content="No activity recorded yet" />}
+        {sequenceList.length ? sequenceList.map((sequence, s) => <ShowSequence key={s} index={s} editable sequence={sequence} />) : <List.Item content="No activity recorded" />}
       </Segment>
     </Segment>
   )

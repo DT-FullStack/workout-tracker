@@ -1,22 +1,20 @@
-import { AsyncAction, EXERCISE } from "./";
+import { ActionCreator, AsyncAction, EXERCISE } from "./";
 import { AppDispatch } from "../store";
-import { Action } from './index';
+import { Action, action } from './index';
 import { ExerciseDB } from 'api/ExerciseDB';
 import { BodyPart, Equipment, TargetMuscle, Exercise } from '../../models/Exercise';
 import { ExerciseSearchState } from "redux/reducers/Exercise";
 
-type ExerciseAction<P> = Action<EXERCISE, P>
-type ExerciseHandler<P> = (payload: P) => ExerciseAction<P> | AsyncAction | void;
-function action<P>(type: EXERCISE, payload?: P): ExerciseAction<P> { return payload ? { type, payload } : { type } };
+type ExerciseAction<P = void> = ActionCreator<EXERCISE, P>
 
 export const exerciseApi = new ExerciseDB();
 
-export const setBodyPart: ExerciseHandler<BodyPart> = bodyPart => (action(EXERCISE.SET_BODYPART, bodyPart));
-export const setEquipment: ExerciseHandler<Equipment> = equip => (action(EXERCISE.SET_EQUIPMENT, equip));
-export const setTarget: ExerciseHandler<TargetMuscle> = target => (action(EXERCISE.SET_TARGET, target));
-export const setName: ExerciseHandler<string | null> = name => action(EXERCISE.SET_NAME, name);
+export const setBodyPart: ExerciseAction<BodyPart> = bodyPart => (action(EXERCISE.SET_BODYPART, bodyPart));
+export const setEquipment: ExerciseAction<Equipment> = equip => (action(EXERCISE.SET_EQUIPMENT, equip));
+export const setTarget: ExerciseAction<TargetMuscle> = target => (action(EXERCISE.SET_TARGET, target));
+export const setName: ExerciseAction<string | null> = name => action(EXERCISE.SET_NAME, name);
 
-export const searchExercises: ExerciseHandler<ExerciseSearchState> = (params) => async (dispatch) => {
+export const searchExercises: ExerciseAction<ExerciseSearchState> = (params) => async (dispatch) => {
   const nonNull: Partial<ExerciseSearchState> = {};
   if (params.name) nonNull.name = params.name;
   if (params.bodyPart) nonNull.bodyPart = params.bodyPart;
@@ -27,4 +25,6 @@ export const searchExercises: ExerciseHandler<ExerciseSearchState> = (params) =>
   dispatch(action(EXERCISE.SEARCH_PARAMS, nonNull));
   dispatch(action(EXERCISE.SEARCH_RESULTS, results));
 }
-export const setSelectedExercise: ExerciseHandler<Exercise> = exercise => action(EXERCISE.SELECT_EXERCISE, exercise)
+export const toggleSelectExercise: ExerciseAction<Exercise> = exercise => action(EXERCISE.TOGGLE_EXERCISE, exercise)
+export const selectExercise: ExerciseAction<Exercise> = exercise => action(EXERCISE.SELECT_EXERCISE, exercise)
+export const deselectExercise: ExerciseAction<Exercise> = exercise => action(EXERCISE.DESELECT_EXERCISE, exercise)

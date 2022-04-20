@@ -20,7 +20,6 @@ interface AuthProviderProps extends PropsFromRedux {
 
 export const AuthProvider = ({ auth, children, getToken }: AuthProviderProps) => {
   const { authenticated } = auth;
-  // console.log(document.cookie);
   if (!authenticated) getToken();
   return <AuthContext.Provider value={auth}> {children} </AuthContext.Provider>
 }

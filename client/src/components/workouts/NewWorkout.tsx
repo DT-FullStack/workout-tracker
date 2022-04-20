@@ -22,7 +22,7 @@ const NewWorkout = ({ selectWorkout }: NewWorkoutProps) => {
   useEffect(() => {
     selectWorkout({
       datetime: {},
-      sequenceList: []
+      sequenceList: [[]]
     });
   }, [selectWorkout])
   return (

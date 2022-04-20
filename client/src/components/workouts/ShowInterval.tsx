@@ -7,10 +7,9 @@ import { WorkoutInterval } from '../../models/Workout';
 import { setWorkoutCursor } from '../../redux/actions/workout';
 import CurrentInterval from './CurrentInterval';
 
-const mapStateToProps = ({ workouts }: RootState) => ({
-  workout: workouts.current,
-  sequence: workouts.sequence,
-  cursor: workouts.cursor
+const mapStateToProps = ({ workout }: RootState) => ({
+  workout: workout.current,
+  cursor: workout.cursor
 })
 const mapDispatchToProps = { setWorkoutCursor }
 const connector = connect(mapStateToProps, mapDispatchToProps);

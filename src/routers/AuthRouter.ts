@@ -1,34 +1,12 @@
 import { CookieOptions, Request, RequestHandler, Response, Router } from "express";
 import User from '../schemas/User';
-import { jwtAuthToken, jwtSign, jwtVerifyToken } from '../middleware/JsonWebToken';
+import { jwtAuthToken, jwtVerifyToken, revokeAuthCookie, secret, setNewAuthCookie } from '../middleware/JsonWebToken';
 import asyncCatch from "../utils/asyncCatch";
 import cookieParser from 'cookie-parser';
 import { env } from 'process';
 
 const authRouter = Router();
 
-export const secret = () => env.APP_SECRET || 'development';
-
-const addCookieToResponse = (token: string, res: Response): void => {
-  const options: CookieOptions = {
-    httpOnly: true,
-    sameSite: true,
-    // secure: true,
-    signed: true,
-    maxAge: 60 * 1000 * 60
-  };
-  if (env.NODE_ENV !== 'production') options.domain = 'localhost';
-  res.cookie('X-ACCESS-TOKEN', token, options);
-}
-const removeCookie = (res: Response) => {
-  res.cookie('X-ACCESS-TOKEN', null, {
-    httpOnly: true,
-    sameSite: true,
-    secure: true,
-    signed: true,
-    maxAge: 0
-  })
-}
 
 interface RegisterRequest extends Request {
   body: {
@@ -64,18 +42,16 @@ const signIn: RequestHandler = async (req: SignInRequest, res: Response) => {
   const user = await User.findAndValidate(email, password);
   if (user) {
     const token = jwtAuthToken(user);
-    addCookieToResponse(token, res);
+    setNewAuthCookie(token, res);
     res.json({ success: true, id: user.id, email: user.email })
   } else {
-    removeCookie(res);
+    revokeAuthCookie(res);
     res.status(400).json({ error: { credentials: 'Invalid Credentials' } })
   }
 }
 authRouter.post('/signin', asyncCatch(signIn));
-
-
 authRouter.get('/signout', (req: Request, res: Response) => {
-  removeCookie(res);
+  revokeAuthCookie(res);
   res.json({ success: true })
 })
 

@@ -1,8 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, FilterQuery } from 'mongoose';
 import { Exercise as IExercise } from '../../client/src/models/Exercise';
 import { AppModel } from './AppModel';
 
-interface ExerciseSchema extends AppModel<IExercise> { }
+interface ExerciseSchema extends AppModel<IExercise> {
+  getFindQuery(params: FilterQuery<IExercise>): FilterQuery<IExercise>
+}
 
 export const exerciseSchema = new Schema<IExercise, ExerciseSchema>({
   name: { type: String, required: true },
@@ -15,6 +17,14 @@ export const exerciseSchema = new Schema<IExercise, ExerciseSchema>({
 exerciseSchema.methods.serialize = function () {
   const { _id, name, bodyPart, target, equipment, gifUrl } = this;
   return { _id, name, bodyPart, target, equipment, gifUrl }
+}
+
+exerciseSchema.statics.getFindQuery = function (params: FilterQuery<IExercise>) {
+  const query: FilterQuery<IExercise> = { ...params };
+  if (query.name) {
+    query.name = { $regex: `\\b${query.name}`, $options: 'i' }
+  }
+  return query;
 }
 
 const Exercise = model<IExercise, ExerciseSchema>('Exercise', exerciseSchema);

@@ -70,7 +70,7 @@ const CurrentInterval = ({ exercise, initial = {}, addToSequence, setWorkoutCurs
       {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.1, initial: 1, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
       {showingIncline && <AppNumber options={{ min: 0, max: 2000, step: 0.1, initial: 0, decimals: 1 }} rightLabel="% incline" value={incline} setValue={setIncline} />}
       {showingCalories && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: 100 }} rightLabel="calories" value={calories} setValue={setCalories} />}
-      <Button content="Record Interval" color="blue" onClick={() => addToSequence(serialize())} />
+      <Button content="Save" color="green" fluid onClick={() => addToSequence(serialize())} />
     </Form>
   )
 }

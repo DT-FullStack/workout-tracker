@@ -45,7 +45,6 @@ const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequence, 
 
   return (
     <Form className='sequence form center'>
-      <Header content={exercise.name} />
       <Form.Field className='sequence props'>
         <Radio label="Weight" toggle checked={showingWeight} onClick={() => setShowingWeight(!showingWeight)} />
         <Radio label="Barbell" toggle checked={showingBarWeight} onClick={() => setShowingBarWeight(!showingBarWeight)} />
@@ -57,10 +56,10 @@ const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequence, 
       {showingWeightAssist && <AppNumber options={{ min: 5, max: 2000, step: 5, initial: weightAssist }} rightLabel="lbs assist" value={weightAssist} setValue={setWeightAssist} />}
       {edit
         ? <Button.Group className='two' fluid >
-          <Button content="Update" color="green" onClick={() => updateSequence(serialize())} />
+          <Button content="Save" color="green" onClick={() => updateSequence(serialize())} />
           <Button content="Cancel" onClick={() => setWorkoutCursor()} />
         </Button.Group>
-        : <Button content="Add" fluid color="green" onClick={() => addToSequence(serialize())} />}
+        : <Button content="Save" fluid color="green" onClick={() => updateSequence(serialize())} />}
 
     </Form>
   )

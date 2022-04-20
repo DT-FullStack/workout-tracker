@@ -6,7 +6,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from 'components/Dashboard';
 import AuthProvider from 'components/auth/AuthProvider';
-import { AuthGuard } from 'components/auth/AuthGuard';
+import AuthGuard from 'components/auth/AuthGuard';
 import GuestOnly from 'components/auth/GuestOnly';
 import NotFound from 'components/nav/NotFound';
 import CurrentWorkout from 'components/workouts/CurrentWorkout';

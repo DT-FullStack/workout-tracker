@@ -8,9 +8,10 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import { env } from 'process'
+import { secret } from './middleware/JsonWebToken'
 
 import MongoAtlasConnect, { MongoDbOptions } from './database/MongoAtlasConnect'
-import authRouter, { secret } from './routers/AuthRouter';
+import authRouter from './routers/AuthRouter';
 import ErrorHandler from './middleware/ErrorHandler';
 import WorkoutRouter from './routers/WorkoutRouter'
 import ExerciseRouter from './routers/ExerciseRouter'

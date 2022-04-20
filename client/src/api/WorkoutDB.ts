@@ -1,6 +1,6 @@
 import { Workout } from '../models/Workout';
 import { AppAxios } from './util/AppAxios';
-
+import { memoizeAndDebounce } from './util/ApiCalls';
 
 type ListResponse = Workout[];
 interface SaveWorkoutResponse {
@@ -20,7 +20,6 @@ class WorkoutDB extends AppAxios {
 
   // 
   // Browser Actions
-
 
   //
   // Requests

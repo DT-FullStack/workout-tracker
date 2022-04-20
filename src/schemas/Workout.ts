@@ -34,11 +34,6 @@ workoutSchema.methods.serialize = function () {
   return { _id, datetime, sequenceList, user };
 }
 
-
-workoutSchema.post('save', async function () {
-  await User.findByIdAndUpdate(this.userId, { $push: { workouts: this._id } });
-})
-
 const Workout = model<IWorkout, WorkoutSchema>('Workout', workoutSchema);
 
 

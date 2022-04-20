@@ -27,7 +27,7 @@ const WorkoutDatetime = ({ workout, isEditable = true, compact, startWorkout, en
   const { datetime: { start, end } } = workout;
   const startTime: AppDateTime | null = start ? new AppDateTime(start) : null;
   const endTime: AppDateTime | null = end ? new AppDateTime(end) : null;
-  const reset = (action: () => void, text: string = 'reset') => <IconButton className='right corner reset' name="x" onClick={action} />
+  const reset = (action: typeof clearStart, text: string = 'reset') => <IconButton className='right corner reset' name="x" onClick={() => action(null)} />
   const duration = () => startTime && endTime
     ? `${_.ceil(endTime.timeBetween(startTime).as('minutes'))} minutes`
     : 'Duration not recorded';
