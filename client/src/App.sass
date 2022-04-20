@@ -57,6 +57,7 @@
   justify-content: center
   align-items: center
   margin: 1.5rem 0
+  flex-grow: 1
   .label
     font-size: 1.5em
     padding: 0 0.75rem
@@ -124,13 +125,23 @@
   &[class*="middle aligned"]
     > .item
       display: flex
+      flex-wrap: wrap
       align-items: center
+      > img.image + .content
+        max-width: calc(100% - 80px)
+      &.active
+        > img.image + .content
+          max-width: calc(100% - 300px)
+
+
+.ui.segment.basic
+  padding: 1rem 0
 
 .segment.workout.history
   .card.list
     margin-top: 1rem
     .ui.cards
-      margin-top: 0
+      margin-top: 1rem
       margin-bottom: 0
       .card
         margin-bottom: 0
@@ -145,3 +156,25 @@
 .image
   &.exercise-image
     transition: width 200ms
+
+.ui.form
+  display: flex
+  flex-wrap: wrap
+  align-content: stretch
+  .field
+    &:not(.inline)
+      flex-basis: 100%
+    &.inline
+      flex-grow: 1
+    .ui.label
+      flex-shrink: 1
+      border-radius: 5px !important
+      margin: 1px 2px 1px 1px
+    .labeled
+      &.dropdown, &.input input
+        flex-grow: 1
+        max-width: 300px
+      &.input
+        input
+          border-radius: 3px !important
+          border: 1px solid rgba(34,36,38,.15) !important

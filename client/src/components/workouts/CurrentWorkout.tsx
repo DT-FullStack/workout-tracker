@@ -3,9 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Header, Menu, Segment } from 'semantic-ui-react';
 import { BackButton } from 'components/nav/Buttons/BackButton';
-import CurrentSequence from './CurrentSequenceItem';
 import ShowWorkout from './ShowWorkout';
-import ExerciseSearch from 'components/exercises/ExerciseSearch';
 import { saveWorkout, resetSaveTracker } from '../../redux/actions/workout';
 
 const mapStateToProps = ({ workout, exercises }: RootState) => ({

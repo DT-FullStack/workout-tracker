@@ -4,7 +4,7 @@ import { Workout, WorkoutSequence } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import _ from 'lodash'
 
-export type WorkoutCursor = [number, number]
+export type WorkoutCursor = [number, number | null]
 
 interface WorkoutsState {
   current: Workout,
@@ -33,7 +33,6 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
     case WORKOUT.FETCH_HISTORY:
       return { ...state, history: payload }
     case WORKOUT.SET_START:
-      console.log(payload);
       return { ...state, hasChanges: true, current: { ...current, datetime: { ...datetime, start: payload } } }
     case WORKOUT.SET_END:
       return { ...state, hasChanges: true, current: { ...current, datetime: { ...datetime, end: payload } } }
@@ -59,7 +58,7 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
       const [sequenceIndex, itemIndex] = cursor;
       const outerList = [...sequenceList];
       const innerList = [...outerList[sequenceIndex]];
-      innerList[itemIndex] = payload;
+      innerList[itemIndex || innerList.length] = payload;
       outerList[sequenceIndex] = innerList;
       return { ...state, current: { ...current, sequenceList: outerList }, cursor: undefined, hasChanges: true, exercise: null };
     case WORKOUT.SELECT_WORKOUT:
@@ -77,7 +76,6 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
     case WORKOUT.RESET_SAVE_EVENT:
       return { ...state, saveEventSuccess: false }
     case WORKOUT.SET_CURSOR_INDEX:
-      console.log(payload);
       return { ...state, cursor: payload }
     default:
       return state;

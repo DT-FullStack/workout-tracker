@@ -3,13 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Divider, Form, Radio } from 'semantic-ui-react'
 import AppNumber from 'components/form/AppNumber'
-import { addToSequence, setWorkoutCursor, updateSequence } from '../../redux/actions/workout';
+import { setWorkoutCursor, updateSequence } from '../../redux/actions/workout';
 import { WorkoutInterval } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import { secondsToMinutes } from 'components/utils/AppDateTime'
 
 const mapStateToProps = (state: RootState) => ({})
-const mapDispatchToProps = { addToSequence, setWorkoutCursor, updateSequence }
+const mapDispatchToProps = { setWorkoutCursor, updateSequence }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>
@@ -27,7 +27,7 @@ interface CurrentIntervalProps extends PropsFromRedux {
   edit?: boolean
 }
 
-const CurrentInterval = ({ exercise, initial = {}, addToSequence, setWorkoutCursor, updateSequence }: CurrentIntervalProps) => {
+const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSequence }: CurrentIntervalProps) => {
   const [duration, setDuration] = useState(initial.duration || 0)
   const [weight, setWeight] = useState(initial.weight || 0)
   const [speed, setSpeed] = useState(initial.speed || 0)
@@ -70,7 +70,7 @@ const CurrentInterval = ({ exercise, initial = {}, addToSequence, setWorkoutCurs
       {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.1, initial: 1, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
       {showingIncline && <AppNumber options={{ min: 0, max: 2000, step: 0.1, initial: 0, decimals: 1 }} rightLabel="% incline" value={incline} setValue={setIncline} />}
       {showingCalories && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: 100 }} rightLabel="calories" value={calories} setValue={setCalories} />}
-      <Button content="Save" color="green" fluid onClick={() => addToSequence(serialize())} />
+      <Button content="Save" color="green" fluid onClick={() => updateSequence(serialize())} />
     </Form>
   )
 }

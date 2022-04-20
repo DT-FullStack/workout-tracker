@@ -34,7 +34,7 @@ const ShowSequence = ({ sequence, compact, index, editable, isSearching, cursor,
   const headerText = () => sequence.length
     ? _.uniq(sequence.map(item => item.exercise.bodyPart)).join(', ')
     : 'New workout';
-  const hasCursor = () => cursor && cursor[0] === index;
+  const hasCursor = () => cursor && (cursor[0] === index) && (sequence.length === cursor[1]);
 
   return (
     <React.Fragment>
@@ -49,14 +49,14 @@ const ShowSequence = ({ sequence, compact, index, editable, isSearching, cursor,
         <React.Fragment>
           <Button.Group fluid className='bottom attached' basic >
             <Button icon="plus" alt="Add new exercise" onClick={() => { openSearch([index, sequence.length]); }} />
-            <Button icon="copy" onClick={() => { }} />
+            {/* <Button icon="copy" onClick={() => { }} /> */}
             <Button icon="trash" onClick={() => { }} />
             <Button icon="angle double down" onClick={() => { }} />
           </Button.Group>
-          <CurrentSequenceItem />
+          {hasCursor() && <CurrentSequenceItem />}
         </React.Fragment>
       }
-      {isSearching && hasCursor() && <ExerciseSearch />}
+      {/* {isSearching && hasCursor() && <ExerciseSearch />} */}
     </React.Fragment>
 
   )

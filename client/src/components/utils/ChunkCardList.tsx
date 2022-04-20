@@ -21,7 +21,7 @@ const ChunkList = ({ list, chunkSize, className = '', header, renderCard, emptyM
       {header && <Header content={header} />}
       <ChunkNavBar chunks={chunks} chunkSize={chunkSize} chunkIndex={chunkIndex} setChunkIndex={setChunkIndex} />
       <Card.Group stackable itemsPerRow={2}>
-        {chunks.length ? chunks[chunkIndex].map((item: any) => renderCard(item)) : <Card content={emptyMessage || 'No results'} />}
+        {chunks.length ? chunks[chunkIndex].map((item: any) => renderCard(item)) : <Card content={<Card.Content content={emptyMessage || 'No results'} />} />}
       </Card.Group>
     </div>
   )

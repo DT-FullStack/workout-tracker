@@ -24,13 +24,17 @@ interface ShowSetProps extends PropsFromRedux {
 
 const ShowSet = ({ workout, cursor, set, index, sequenceIndex, setWorkoutCursor }: ShowSetProps) => {
   const { exercise, reps, weight, barWeight, weightAssist } = set;
-  const isSelected = (cursor && (cursor[0] === sequenceIndex) && (cursor[1] === index)) || false;
-
+  const isSelected = (): boolean => {
+    const selected = (cursor && (cursor[0] === sequenceIndex) && (cursor[1] === index)) || false;
+    console.log(cursor, sequenceIndex, index, selected)
+    return (cursor && (cursor[0] === sequenceIndex) && (cursor[1] === index)) || false
+  };
+  // console.log()
   const totalWeight =
     weight || barWeight
       ? (weight || 0) + (barWeight || 0)
       : null;
-
+  // console.log(cursor, sequenceIndex, index);
   const renderDisplay = () => <React.Fragment>
     <List.Content >
       <Label.Group>
@@ -49,7 +53,7 @@ const ShowSet = ({ workout, cursor, set, index, sequenceIndex, setWorkoutCursor 
   return (
     <List.Item >
       {renderDisplay()}
-      {isSelected && <CurrentSequenceItem initial={set} />}
+      {isSelected() && <CurrentSequenceItem initial={set} />}
     </List.Item>
 
   )

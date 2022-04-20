@@ -11,6 +11,7 @@
     "server": "concurrently npm:dev-server-*",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npm install --prefix client",
+    "deploy": "git push heroku",
     "heroku-postbuild": "npm run build --prefix client && echo \"Client built\" && tsc && chmod 555 ./build/src/server.js"
   },
   "author": "David Taylor",

@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Item, List } from 'semantic-ui-react';
 import { WorkoutSet, WorkoutInterval } from '../../models/Workout';
-import { setWorkoutCursor } from '../../redux/actions/workout';
+import { setWorkoutCursor, duplicateSequenceItem } from '../../redux/actions/workout';
 import ShowInterval from './ShowInterval';
 import ShowSet from './ShowSet';
 
@@ -33,7 +33,7 @@ const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, setWork
         ? <Button basic icon="x" alt="Cancel" onClick={() => setWorkoutCursor()} />
         : <React.Fragment>
           <Button basic icon="edit" alt="Edit Set" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
-          <Button basic icon="copy" alt="Copy as New Set" onClick={() => { }} />
+          <Button basic icon="copy" alt="Copy as New Set" onClick={() => { duplicateSequenceItem(item) }} />
           <Button basic icon="trash" alt="Delete Set" onClick={() => { }} />
         </React.Fragment>}
     </Button.Group>

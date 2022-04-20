@@ -8,6 +8,7 @@
         color: rgba(0,0,0,.95)
   .field.labeled-dropdown
     display: flex
+    flex-wrap: wrap
     align-content: stretch
     &:not(:last-of-type)
       margin-right: 5px
@@ -19,11 +20,11 @@
       border-bottom-right-radius: 0px
       padding-top: 0.78571429em
       padding-bottom: 0.78571429em
-      margin: 0
-    .selection.dropdown
-      width: unset
-      border-top-left-radius: 0px
-      border-bottom-left-radius: 0px
+      // margin: 0
+    // .selection.dropdown
+    //   width: unset
+    //   border-top-left-radius: 0px
+    //   border-bottom-left-radius: 0px
   .buttons
     margin-top: 1rem
   .ui.list
@@ -50,6 +51,9 @@ ul
   &.image
     &.loading
       height: 0
+
+.ui.input
+  flex-wrap: wrap
 
     
     

@@ -25,7 +25,7 @@ const ExerciseListItem = ({ exercise, activeList, details, children, onClickHand
   const className = active ? 'active' : '';
   return (
     <List.Item onClick={onClickHandler} className={className}>
-      <ExerciseImage exercise={exercise} floated='left' size={active ? 'medium' : 'tiny'} />
+      <ExerciseImage exercise={exercise} size={active ? 'medium' : 'tiny'} />
       <List.Content >
         <List.Header as={active ? 'h2' : 'h4'} >
           {exercise.name}

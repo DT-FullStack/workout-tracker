@@ -10,8 +10,8 @@ import AuthGuard from 'components/auth/AuthGuard';
 import GuestOnly from 'components/auth/GuestOnly';
 import NotFound from 'components/nav/NotFound';
 import CurrentWorkout from 'components/workouts/CurrentWorkout';
-import "./App.sass"
 import "./semantic/semantic.min.css";
+import "./App.sass"
 import NewWorkout from 'components/workouts/NewWorkout';
 
 

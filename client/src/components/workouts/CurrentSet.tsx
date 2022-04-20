@@ -6,11 +6,11 @@ import AppNumber from 'components/form/AppNumber';
 import { WorkoutSet } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import { Button } from 'semantic-ui-react';
-import { addToSequence } from 'redux/actions/workout';
+// import { addToSequence } from 'redux/actions/workout';
 import { setWorkoutCursor, updateSequence } from '../../redux/actions/workout';
 
 const mapStateToProps = (state: RootState) => ({})
-const mapDispatchToProps = { addToSequence, setWorkoutCursor, updateSequence }
+const mapDispatchToProps = { setWorkoutCursor, updateSequence }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -25,7 +25,7 @@ interface CurrentSetProps extends PropsFromRedux {
   // initialBarWeight?: number
 }
 
-const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequence, addToSequence, edit = false }: CurrentSetProps) => {
+const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequence, edit = false }: CurrentSetProps) => {
   const [reps, setReps] = useState(initial.reps || 0);
   const [weight, setWeight] = useState(initial.weight || 0);
   const [barWeight, setBarWeight] = useState(initial.barWeight || 0);

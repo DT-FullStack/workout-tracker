@@ -15,8 +15,11 @@ export const clearStart: WorkoutAction<null> = () => action(WORKOUT.SET_START, n
 export const clearEnd: WorkoutAction<null> = () => action(WORKOUT.SET_END, null);
 
 export const selectExerciseForWorkout: WorkoutAction<Exercise> = (exercise) => action(WORKOUT.SELECT_EXERCISE, exercise)
-export const addToSequence: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.ADD_TO_SEQUENCE, item);
+// export const addToSequence: WorkoutAction<Partial<WorkoutSet | WorkoutInterval>> = (item) => action(WORKOUT.ADD_TO_SEQUENCE, item);
 export const updateSequence: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.UPDATE_SEQUENCE, item);
+export const duplicateSequenceItem: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => {
+
+}
 
 export const resetSaveTracker: WorkoutAction = () => action(WORKOUT.RESET_SAVE_EVENT);
 export const fetchWorkoutHistory: WorkoutAction = () => async (dispatch, getState) => {
