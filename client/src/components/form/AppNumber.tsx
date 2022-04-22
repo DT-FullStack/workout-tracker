@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import React, { Component, useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import { Button, InputOnChangeData, } from 'semantic-ui-react'
+import { Button, InputOnChangeData, Message, MessageProps, } from 'semantic-ui-react'
 import AppExponentialChange, { ExponentialChangeI } from 'components/utils/AppExponentialChange'
 // import ClickNHold from 'react-click-n-hold';
 import ClickNHold from './AppClickNHold'
+import FadingMessage from 'components/utils/FadingMessage'
 
 export type AppNumberChangeEventHandler = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => void
 
@@ -20,10 +21,13 @@ interface AppNumberProps {
 
 const AppNumber = (props: AppNumberProps) => {
   const { value, setValue, leftLabel, rightLabel, textAlign, options } = props;
+  const [error, setError] = useState<string | null>(null);
+
   const change = useRef(new AppExponentialChange({
     initial: 5,
     value,
     setValue,
+    onError: (changeError) => { setError(changeError) },
     ...options
   }));
 
@@ -36,11 +40,16 @@ const AppNumber = (props: AppNumberProps) => {
 
   return (
     <div className={className} onMouseUp={change.current.stop} onTouchEnd={change.current.stop}    >
-      <Button icon="minus" size='tiny' onMouseDown={() => change.current.start('down')} />
-      {leftLabel && label(leftLabel)}
-      <div className="value">{change.current.displayValue}</div>
-      {rightLabel && label(rightLabel)}
-      <Button icon="plus" size='tiny' onMouseDown={() => change.current.start('up')} />
+      <Button icon="minus" size='tiny' onMouseDown={() => change.current.start('down')} onTouchStart={() => change.current.start('down')} />
+      <div className="text">
+        {leftLabel && label(leftLabel)}
+        <div className="value">{change.current.displayValue}</div>
+        {rightLabel && label(rightLabel)}
+        <div className="info">
+          {error && <FadingMessage negative content={error} />}
+        </div>
+      </div>
+      <Button icon="plus" size='tiny' onMouseDown={() => change.current.start('up')} onTouchStart={() => change.current.start('up')} />
     </div>
   )
 }

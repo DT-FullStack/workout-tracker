@@ -92,7 +92,8 @@ class AppExponentialChange implements ExponentialChangeI {
       this.error = `numbers only`;
       clearInterval(this.timer);
     } else this.error = null;
-    if (this.error && this.onError) this.onError(this.error);
+    if (this.onError) this.onError(this.error);
+    // if (this.error && this.onError) this.onError(this.error);
     else if (this.error) console.error(this.error);
     return this.error === null;
   }
