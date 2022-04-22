@@ -22,6 +22,14 @@ interface ShowIntervalProps extends PropsFromRedux {
   sequenceIndex?: number
 }
 
+// duration: number;
+// speed ?: number
+// distance ?: number
+// incline ?: number
+// verticalRise ?: number
+// calories ?: number
+
+
 const ShowInterval = ({ cursor, index, sequenceIndex, setWorkoutCursor, interval: { exercise, weight, distance, duration, speed, incline, calories } }: ShowIntervalProps) => {
   const isSelected = (cursor && (cursor[0] === sequenceIndex) && (cursor[1] === index)) || false;
   const showDuration = humanDuration();

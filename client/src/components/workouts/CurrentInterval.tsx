@@ -3,13 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, Divider, Form, Radio } from 'semantic-ui-react'
 import AppNumber from 'components/form/AppNumber'
-import { setWorkoutCursor, updateSequence } from '../../redux/actions/workout';
+import { setWorkoutCursor, updateSequenceItem } from '../../redux/actions/workout';
 import { WorkoutInterval } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import { secondsToMinutes } from 'components/utils/AppDateTime'
 
 const mapStateToProps = (state: RootState) => ({})
-const mapDispatchToProps = { setWorkoutCursor, updateSequence }
+const mapDispatchToProps = { setWorkoutCursor, updateSequenceItem }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>
@@ -27,7 +27,7 @@ interface CurrentIntervalProps extends PropsFromRedux {
   edit?: boolean
 }
 
-const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSequence }: CurrentIntervalProps) => {
+const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSequenceItem }: CurrentIntervalProps) => {
   const [duration, setDuration] = useState(initial.duration || 0)
   const [weight, setWeight] = useState(initial.weight || 0)
   const [speed, setSpeed] = useState(initial.speed || 0)
@@ -54,6 +54,14 @@ const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSeque
     return serializable;
   }
 
+  // duration: number;
+  // speed ?: number
+  // distance ?: number
+  // incline ?: number
+  // verticalRise ?: number
+  // calories ?: number
+
+
   return (
     <Form className='center'>
       <Divider />
@@ -62,6 +70,7 @@ const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSeque
         <Radio label="Speed" toggle checked={showingSpeed} onClick={() => setShowingSpeed(!showingSpeed)} />
         <Radio label="Distance" toggle checked={showingDistance} onClick={() => setShowingDistance(!showingDistance)} />
         <Radio label="Incline" toggle checked={showingIncline} onClick={() => setShowingIncline(!showingIncline)} />
+        <Radio label="Vertical Rise" toggle checked={showingVerticalRise} onClick={() => setShowingVerticalRise(!showingVerticalRise)} />
         <Radio label="Calories" toggle checked={showingCalories} onClick={() => setShowingCalories(!showingCalories)} />
       </Form.Field>
       <AppNumber options={{ min: 10, max: 2000 * 60, step: 10, initial: 10 * 60, transformValue: secondsToMinutes }} rightLabel="min" value={duration} setValue={setDuration} />
@@ -69,8 +78,9 @@ const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSeque
       {showingSpeed && <AppNumber options={{ min: 1, max: 2000, step: 0.1, initial: 3, decimals: 1 }} rightLabel="mph" value={speed} setValue={setSpeed} />}
       {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.1, initial: 1, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
       {showingIncline && <AppNumber options={{ min: 0, max: 2000, step: 0.1, initial: 0, decimals: 1 }} rightLabel="% incline" value={incline} setValue={setIncline} />}
+      {showingVerticalRise && <AppNumber options={{ min: 0, max: 2000, step: 0.5, initial: 0, decimals: 1 }} rightLabel="vertical ft" value={verticalRise} setValue={setVerticalRise} />}
       {showingCalories && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: 100 }} rightLabel="calories" value={calories} setValue={setCalories} />}
-      <Button content="Save" color="green" fluid onClick={() => updateSequence(serialize())} />
+      <Button content="Save" color="green" fluid onClick={() => updateSequenceItem(serialize())} />
     </Form>
   )
 }

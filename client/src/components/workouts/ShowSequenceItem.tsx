@@ -11,7 +11,7 @@ const mapStateToProps = ({ workout }: RootState) => ({
   workout: workout.current,
   cursor: workout.cursor
 })
-const mapDispatchToProps = { setWorkoutCursor }
+const mapDispatchToProps = { setWorkoutCursor, duplicateSequenceItem }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -23,7 +23,7 @@ interface ShowSequenceItemProps extends PropsFromRedux {
   sequenceIndex: number,
 }
 
-const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, setWorkoutCursor }: ShowSequenceItemProps) => {
+const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, setWorkoutCursor, duplicateSequenceItem }: ShowSequenceItemProps) => {
   const { exercise, reps, duration } = item;
   const isSelected = (cursor && (cursor[0] === sequenceIndex) && (cursor[1] === index)) || false;
   const renderEditOptions = () => (
@@ -32,9 +32,9 @@ const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, setWork
       {isSelected
         ? <Button basic icon="x" alt="Cancel" onClick={() => setWorkoutCursor()} />
         : <React.Fragment>
-          <Button basic icon="edit" alt="Edit Set" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
-          <Button basic icon="copy" alt="Copy as New Set" onClick={() => { duplicateSequenceItem(item) }} />
-          <Button basic icon="trash" alt="Delete Set" onClick={() => { }} />
+          <Button basic icon="edit" alt="Edit" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
+          <Button basic icon="copy" alt="Duplicate" onClick={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
+          <Button basic icon="trash" alt="Delete" onClick={() => { }} />
         </React.Fragment>}
     </Button.Group>
   )

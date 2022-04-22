@@ -7,10 +7,10 @@ import { WorkoutSet } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import { Button } from 'semantic-ui-react';
 // import { addToSequence } from 'redux/actions/workout';
-import { setWorkoutCursor, updateSequence } from '../../redux/actions/workout';
+import { setWorkoutCursor, updateSequenceItem } from '../../redux/actions/workout';
 
 const mapStateToProps = (state: RootState) => ({})
-const mapDispatchToProps = { setWorkoutCursor, updateSequence }
+const mapDispatchToProps = { setWorkoutCursor, updateSequenceItem }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -25,7 +25,7 @@ interface CurrentSetProps extends PropsFromRedux {
   // initialBarWeight?: number
 }
 
-const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequence, edit = false }: CurrentSetProps) => {
+const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequenceItem, edit = false }: CurrentSetProps) => {
   const [reps, setReps] = useState(initial.reps || 0);
   const [weight, setWeight] = useState(initial.weight || 0);
   const [barWeight, setBarWeight] = useState(initial.barWeight || 0);
@@ -54,12 +54,8 @@ const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequence, 
       {showingWeight && <AppNumber options={{ min: 0, max: 2000, step: 5, initial: weight }} rightLabel="lbs" value={weight} setValue={setWeight} />}
       {showingBarWeight && <AppNumber options={{ min: 5, max: 2000, step: 5, initial: barWeight }} rightLabel="bar lbs" value={barWeight} setValue={setBarWeight} />}
       {showingWeightAssist && <AppNumber options={{ min: 5, max: 2000, step: 5, initial: weightAssist }} rightLabel="lbs assist" value={weightAssist} setValue={setWeightAssist} />}
-      {edit
-        ? <Button.Group className='two' fluid >
-          <Button content="Save" color="green" onClick={() => updateSequence(serialize())} />
-          <Button content="Cancel" onClick={() => setWorkoutCursor()} />
-        </Button.Group>
-        : <Button content="Save" fluid color="green" onClick={() => updateSequence(serialize())} />}
+
+      <Button content="Save" fluid color="green" onClick={() => updateSequenceItem(serialize())} />
 
     </Form>
   )

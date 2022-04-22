@@ -24,5 +24,5 @@ export const sequenceItemSchema = new Schema<SequenceItem, SequenceItemSchema>({
   incline: Number,
   verticalRise: Number,
   calories: Number,
-})
+}, { _id: false })
 

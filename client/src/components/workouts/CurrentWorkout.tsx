@@ -22,6 +22,12 @@ interface CurrentWorkoutProps extends PropsFromRedux { }
 
 const CurrentWorkout = ({ workout, isSearching, hasChanges, saveWorkout }: CurrentWorkoutProps) => {
   const buttonText = workout._id !== undefined ? 'Save Changes' : 'Record Workout';
+  let timer: ReturnType<typeof setTimeout>;
+  useEffect(() => {
+    if (hasChanges) timer = setTimeout(() => saveWorkout(workout), 60 * 1000)
+    else clearTimeout(timer);
+    return () => { clearTimeout(timer) }
+  }, [hasChanges])
   return (
     <Segment basic>
       <Menu secondary>
@@ -31,7 +37,6 @@ const CurrentWorkout = ({ workout, isSearching, hasChanges, saveWorkout }: Curre
       {hasChanges
         ? <Button color='green' fluid content={buttonText} onClick={() => { saveWorkout(workout) }} />
         : <Button disabled fluid content={buttonText} />}
-
       <ShowWorkout editable workout={workout} />
     </Segment>
   )

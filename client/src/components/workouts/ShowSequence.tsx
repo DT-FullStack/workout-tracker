@@ -6,7 +6,7 @@ import { WorkoutSequence, WorkoutSet, WorkoutInterval } from '../../models/Worko
 import ShowInterval from './ShowInterval';
 import ShowSet from './ShowSet';
 import _ from 'lodash';
-import { setWorkoutCursor, openSearch } from '../../redux/actions/workout';
+import { setWorkoutCursor, openSearch, addNewSequence, deleteSequence } from '../../redux/actions/workout';
 import ExerciseSearch from 'components/exercises/ExerciseSearch';
 import CurrentSequenceItem from './CurrentSequenceItem';
 import ShowSequenceItem from './ShowSequenceItem';
@@ -15,7 +15,7 @@ const mapStateToProps = ({ workout, auth }: RootState) => ({
   isSearching: workout.isSearching,
   cursor: workout.cursor
 })
-const mapDispatchToProps = { setWorkoutCursor, openSearch }
+const mapDispatchToProps = { setWorkoutCursor, openSearch, addNewSequence, deleteSequence }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -28,7 +28,7 @@ interface ShowSequenceProps extends PropsFromRedux {
   editable?: boolean
 }
 
-const ShowSequence = ({ sequence, compact, index, editable, isSearching, cursor, openSearch, setWorkoutCursor }: ShowSequenceProps) => {
+const ShowSequence = ({ sequence, compact, index, editable, isSearching, cursor, openSearch, setWorkoutCursor, addNewSequence, deleteSequence }: ShowSequenceProps) => {
   const exercises = _.uniq(sequence.map(item => item.exercise.name));
   const compactRender = () => <List.Item className='compact' content={exercises.join(', ')} />
   const headerText = () => sequence.length
@@ -50,8 +50,8 @@ const ShowSequence = ({ sequence, compact, index, editable, isSearching, cursor,
           <Button.Group fluid className='bottom attached' basic >
             <Button icon="plus" alt="Add new exercise" onClick={() => { openSearch([index, sequence.length]); }} />
             {/* <Button icon="copy" onClick={() => { }} /> */}
-            <Button icon="trash" onClick={() => { }} />
-            <Button icon="angle double down" onClick={() => { }} />
+            <Button icon="trash" onClick={() => { console.log(index); deleteSequence(index) }} />
+            <Button icon="angle double down" onClick={() => { addNewSequence() }} />
           </Button.Group>
           {hasCursor() && <CurrentSequenceItem />}
         </React.Fragment>

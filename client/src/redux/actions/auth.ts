@@ -9,7 +9,7 @@ export const userApi = new UserHttp();
 // type AuthHandler<P = void> = (payload: P) => AuthAction<P> | AsyncAction | void;
 // function action<P>(type: AUTH, payload?: P): AuthAction<P> { return payload ? { type, payload } : { type } };
 
-type AuthAction<P = void> = ActionCreator<AUTH | WORKOUT, P>
+type AuthAction<P = void> = ActionCreator<AUTH, P>
 
 
 export const signOut: AuthAction = () => async (dispatch) => {
@@ -37,5 +37,7 @@ export const getToken: AuthAction = () => async (dispatch) => {
 
 export const clearUserData: AuthAction = () => async dispatch => {
   dispatch(action(WORKOUT.FETCH_HISTORY, []));
+  dispatch(action(WORKOUT.SELECT_WORKOUT, { datetime: {}, sequenceList: [] }))
+  dispatch(action(WORKOUT.SET_CURSOR_INDEX))
 }
 

@@ -23,12 +23,13 @@ const initial: WorkoutsState = {
   exercise: null,
   isSearching: false,
   history: [],
-  saveEventSuccess: false
+  saveEventSuccess: false,
 }
 
 const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload = null }) => {
   const { current, isSearching, history, cursor } = state;
   const { datetime, sequenceList } = current;
+  const newSequenceList = [...sequenceList];
   switch (type) {
     case WORKOUT.FETCH_HISTORY:
       return { ...state, history: payload }
@@ -44,15 +45,14 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
     case WORKOUT.SELECT_EXERCISE:
       return { ...state, exercise: payload, isSearching: false }
     case WORKOUT.NEW_SEQUENCE:
-      return {
-        ...state,
-        current: {
-          ...current,
-          sequenceList: [...sequenceList, []],
-        },
-        hasChanges: true,
-        exercise: null
-      }
+      return { ...state, current: { ...current, sequenceList: [...sequenceList, []], }, hasChanges: true, exercise: null }
+    case WORKOUT.DUPLICATE_ITEM:
+      const [sequence, index] = payload;
+      const list = [...newSequenceList[sequence]];
+      const item = { ...list[index] };
+      list.push(item);
+      newSequenceList[sequence] = list;
+      return { ...state, hasChanges: true, cursor: [sequence, list.length - 1], current: { ...current, sequenceList: newSequenceList } }
     case WORKOUT.UPDATE_SEQUENCE:
       if (!cursor) return { ...state };
       const [sequenceIndex, itemIndex] = cursor;
@@ -61,10 +61,12 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
       innerList[itemIndex || innerList.length] = payload;
       outerList[sequenceIndex] = innerList;
       return { ...state, current: { ...current, sequenceList: outerList }, cursor: undefined, hasChanges: true, exercise: null };
+    case WORKOUT.DELETE_SEQUENCE:
+      if (payload === null) payload = 0;
+      newSequenceList.splice(payload, 1);
+      return { ...state, hasChanges: true, current: { ...current, sequenceList: newSequenceList } };
     case WORKOUT.SELECT_WORKOUT:
-      return {
-        ...state, current: payload
-      }
+      return { ...state, current: payload, cursor: undefined }
     case WORKOUT.DELETE_WORKOUT:
       return { ...state, history: [...history].filter(workout => workout._id !== payload) };
     case WORKOUT.SAVE_WORKOUT:
