@@ -24,6 +24,7 @@ class AppExponentialChange implements ExponentialChangeI {
   iteration: number = 1
   interval: number = 300
   error: string | null = null;
+  isChanging: boolean = false;
   onChange?: (...args: any[]) => any
   onError?: (...args: any[]) => any
   setValue?: (value: number) => any
@@ -49,12 +50,15 @@ class AppExponentialChange implements ExponentialChangeI {
   }
 
   start = (direction: 'down' | 'up') => {
+    if (this.isChanging) return;
+    this.isChanging = true;
     this.direction = direction;
     this.resetCounter();
     this.setInterval();
     this.adjust();
   }
   stop = () => {
+    setTimeout(() => this.isChanging = false, 50)
     if (this.onChange) this.onChange();
     clearInterval(this.timer);
     this.interval = 300;

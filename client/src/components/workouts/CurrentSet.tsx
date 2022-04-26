@@ -26,14 +26,14 @@ interface CurrentSetProps extends PropsFromRedux {
 }
 
 const CurrentSet = ({ exercise, initial = {}, setWorkoutCursor, updateSequenceItem, edit = false }: CurrentSetProps) => {
-  const [reps, setReps] = useState(initial.reps || 0);
-  const [weight, setWeight] = useState(initial.weight || 0);
-  const [barWeight, setBarWeight] = useState(initial.barWeight || 0);
-  const [weightAssist, setWeightAssist] = useState(initial.weightAssist || 0);
+  const [reps, setReps] = useState(initial.reps || 5);
+  const [weight, setWeight] = useState(initial.weight || 25);
+  const [barWeight, setBarWeight] = useState(initial.barWeight || 45);
+  const [weightAssist, setWeightAssist] = useState(initial.weightAssist || 25);
 
-  const [showingWeight, setShowingWeight] = useState(weight > 0);
-  const [showingBarWeight, setShowingBarWeight] = useState(barWeight > 0);
-  const [showingWeightAssist, setShowingWeightAssist] = useState(weightAssist > 0);
+  const [showingWeight, setShowingWeight] = useState(initial.weight !== undefined);
+  const [showingBarWeight, setShowingBarWeight] = useState(initial.barWeight !== undefined);
+  const [showingWeightAssist, setShowingWeightAssist] = useState(initial.weightAssist !== undefined);
 
   const serialize = (): WorkoutSet => {
     const serializable: WorkoutSet = { exercise, reps };

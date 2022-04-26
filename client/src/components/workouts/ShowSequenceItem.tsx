@@ -1,17 +1,19 @@
+import StatLabels from 'components/utils/StatLabels';
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
-import { Button, Item, List } from 'semantic-ui-react';
+import { Button, Item, Label, List } from 'semantic-ui-react';
 import { WorkoutSet, WorkoutInterval } from '../../models/Workout';
-import { setWorkoutCursor, duplicateSequenceItem } from '../../redux/actions/workout';
-import ShowInterval from './ShowInterval';
-import ShowSet from './ShowSet';
+import { setWorkoutCursor, duplicateSequenceItem, deleteSequenceItem } from '../../redux/actions/workout';
+import CurrentSequenceItem from './CurrentSequenceItem';
+import { StatsInterval } from './StatsInterval';
+import { StatsSet } from './StatsSet';
 
 const mapStateToProps = ({ workout }: RootState) => ({
   workout: workout.current,
   cursor: workout.cursor
 })
-const mapDispatchToProps = { setWorkoutCursor, duplicateSequenceItem }
+const mapDispatchToProps = { setWorkoutCursor, duplicateSequenceItem, deleteSequenceItem }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -21,33 +23,41 @@ interface ShowSequenceItemProps extends PropsFromRedux {
   item: WorkoutSet & WorkoutInterval,
   index: number
   sequenceIndex: number,
+  indentIndex: number
+  compact?: boolean
 }
 
-const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, setWorkoutCursor, duplicateSequenceItem }: ShowSequenceItemProps) => {
-  const { exercise, reps, duration } = item;
+const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, indentIndex, compact, setWorkoutCursor, duplicateSequenceItem, deleteSequenceItem }: ShowSequenceItemProps) => {
+  const { exercise, reps } = item;
   const isSelected = (cursor && (cursor[0] === sequenceIndex) && (cursor[1] === index)) || false;
-  const renderEditOptions = () => (
-    (index !== undefined && sequenceIndex !== undefined) &&
+  const statistics = reps
+    ? new StatsSet(item)
+    : new StatsInterval(item);
+
+  const renderOptionButtons = () =>
     <Button.Group className='compact' floated='right'>
       {isSelected
         ? <Button basic icon="x" alt="Cancel" onClick={() => setWorkoutCursor()} />
         : <React.Fragment>
           <Button basic icon="edit" alt="Edit" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
           <Button basic icon="copy" alt="Duplicate" onClick={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
-          <Button basic icon="trash" alt="Delete" onClick={() => { }} />
+          <Button basic icon="trash" alt="Delete" onClick={() => { deleteSequenceItem([sequenceIndex, index]) }} />
         </React.Fragment>}
     </Button.Group>
-  )
+  // const renderAlphaIndex = () =>
 
-  return (
+
+  const renderCompact = () =>
+    <List.Item content={exercise.name} />
+  const renderExpanded = () =>
     <List.Item>
-      {renderEditOptions()}
-      <List.Header content={exercise.name} />
-      {reps !== undefined && <ShowSet index={index} sequenceIndex={sequenceIndex} set={item} />}
-      {duration !== undefined && <ShowInterval index={index} sequenceIndex={sequenceIndex} interval={item} />}
+      {renderOptionButtons()}
+      <List.Header content={exercise.name} className={`indent-${indentIndex}`} />
+      <StatLabels color='grey' stats={statistics} className={`indent-${indentIndex}`} />
+      {isSelected && <CurrentSequenceItem initial={item} />}
     </List.Item>
 
-  )
+  return compact ? renderCompact() : renderExpanded();
 }
 
 export default connector(ShowSequenceItem)

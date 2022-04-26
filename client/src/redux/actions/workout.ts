@@ -18,6 +18,7 @@ export const selectExerciseForWorkout: WorkoutAction<Exercise> = (exercise) => a
 
 export const updateSequenceItem: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.UPDATE_SEQUENCE, item);
 export const duplicateSequenceItem: WorkoutAction<WorkoutCursor> = (cursor) => action(WORKOUT.DUPLICATE_ITEM, cursor)
+export const deleteSequenceItem: WorkoutAction<WorkoutCursor> = (cursor) => action(WORKOUT.DELETE_ITEM, cursor)
 
 export const addNewSequence: WorkoutAction = () => action(WORKOUT.NEW_SEQUENCE);
 export const deleteSequence: WorkoutAction<number> = (index) => action(WORKOUT.DELETE_SEQUENCE, index);

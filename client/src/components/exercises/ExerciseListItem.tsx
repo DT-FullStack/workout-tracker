@@ -20,9 +20,10 @@ interface ExerciseListItemProps extends PropsFromRedux, ListItemProps {
   onClickHandler(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, data: ListItemProps): void
 }
 
-const ExerciseListItem = ({ exercise, activeList, details, children, onClickHandler, deselectExercise }: ExerciseListItemProps) => {
+const ExerciseListItem = ({ exercise, activeList, details, children, className = '', onClickHandler, deselectExercise }: ExerciseListItemProps) => {
   const active = activeList.includes(exercise._id);
-  const className = active ? 'active' : '';
+  // const className = active ? 'active' : '';
+  if (active) className += ' active';
   return (
     <List.Item onClick={onClickHandler} className={className}>
       <ExerciseImage exercise={exercise} size={active ? 'medium' : 'tiny'} />

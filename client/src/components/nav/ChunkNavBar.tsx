@@ -18,17 +18,17 @@ const ChunkNavBar = ({ chunks, chunkSize, chunkIndex, setChunkIndex }: ChunkNavB
 
   const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!menuRef.current) return
+    if (!menuRef.current) return;
     const { left: menuLeft, right: menuRight } = menuRef.current.getBoundingClientRect();
     const activeItem = menuRef.current.querySelector('.item.active');
     if (!activeItem) return;
-    const { left: itemLeft, right: itemRight } = activeItem.getBoundingClientRect();
-    if (itemLeft < menuLeft) menuRef.current.scrollLeft -= menuLeft - itemLeft;
-    else if (itemRight > menuRight) menuRef.current.scrollLeft += itemRight - menuRight;
+    const { left: itemLeft, right: itemRight, width } = activeItem.getBoundingClientRect();
+    if (itemLeft < menuLeft) menuRef.current.scrollLeft -= menuLeft - itemLeft + width * 0.5;
+    else if (itemRight > menuRight) menuRef.current.scrollLeft += itemRight - menuRight + width * 0.5;
   }, [chunkIndex])
 
   return (
-    <Menu attached="top" className='chunk'>
+    <Menu attached="top" className='chunk sticky'>
       <Menu.Item icon disabled={chunkIndex === 0} onClick={decrementIndex} content={<Icon name='arrow left' />} />
       <div ref={menuRef} className="menu chunk body" style={{ overflow: 'hidden' }}>
         {chunks.map((chunk, index) => <Menu.Item key={index} active={index === chunkIndex} onClick={() => setChunkIndex(index)} content={chunkLabel(index, chunk.length, chunkSize)} />)}

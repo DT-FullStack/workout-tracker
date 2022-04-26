@@ -26,13 +26,16 @@ interface CurrentSequenceItemProps extends PropsFromRedux {
 const CurrentSequenceItem = ({ exercise, initial, isSearching, openSearch, selectExerciseForWorkout }: CurrentSequenceItemProps) => {
   const [exerciseType, setExerciseType] = useState<'set' | 'interval'>('set');
   useEffect(() => {
-    if (initial?.exercise) selectExerciseForWorkout(initial.exercise);
+    if (initial?.exercise) {
+      selectExerciseForWorkout(initial.exercise);
+      setExerciseType(initial.reps ? 'set' : 'interval')
+    }
   }, [initial?.exercise])
   return (
     <Segment basic>
       {exercise ? <React.Fragment>
         <Header className='center'>
-          <span> {exercise.name}</span>
+          <span>{exercise.name}</span>
           <Button className='borderless' icon='edit' alt="Change exercise" basic compact onClick={() => openSearch()} />
         </Header>
         <Grid stackable className='exercise'>

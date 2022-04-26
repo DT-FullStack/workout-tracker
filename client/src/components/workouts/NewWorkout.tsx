@@ -21,7 +21,7 @@ interface NewWorkoutProps extends PropsFromRedux {
 const NewWorkout = ({ selectWorkout }: NewWorkoutProps) => {
   useEffect(() => {
     selectWorkout({
-      datetime: {},
+      datetime: { start: Date.now() },
       sequenceList: [[]]
     });
   }, [selectWorkout])

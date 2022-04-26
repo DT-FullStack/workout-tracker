@@ -32,8 +32,8 @@ const WorkoutListCard = ({ workout, active, details, className = "workout", onCl
   if (active) className += ' active blue';
   const sequences = _.flatten(workout.sequenceList);
   const exercises = _.uniq(sequences.map(seq => seq.exercise));
-  const workoutBodyParts = _.uniq(exercises.map(ex => _.startCase(`${ex.bodyPart}`)));
-  const workoutMuscles = _.uniq(exercises.map(ex => _.startCase(`${ex.target}`)));
+  const workoutBodyParts = _.uniq(exercises.map(ex => _.startCase(`${ex.bodyPart}`))).join(', ');
+  const workoutMuscles = _.uniq(exercises.map(ex => _.startCase(`${ex.target}`))).join(', ');
 
   const navigate = useNavigate();
 

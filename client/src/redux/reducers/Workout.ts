@@ -1,6 +1,6 @@
 import { WORKOUT } from "redux/actions"
 import { Reducer } from "redux";
-import { Workout, WorkoutSequence } from '../../models/Workout';
+import { Workout, WorkoutInterval, WorkoutSequence, WorkoutSet } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
 import _ from 'lodash'
 
@@ -30,6 +30,8 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
   const { current, isSearching, history, cursor } = state;
   const { datetime, sequenceList } = current;
   const newSequenceList = [...sequenceList];
+  let sequenceIndex: number, itemIndex: number;
+  let sequence: WorkoutSequence, item: WorkoutSet & WorkoutInterval;
   switch (type) {
     case WORKOUT.FETCH_HISTORY:
       return { ...state, history: payload }
@@ -47,23 +49,31 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
     case WORKOUT.NEW_SEQUENCE:
       return { ...state, current: { ...current, sequenceList: [...sequenceList, []], }, hasChanges: true, exercise: null }
     case WORKOUT.DUPLICATE_ITEM:
-      const [sequence, index] = payload;
-      const list = [...newSequenceList[sequence]];
-      const item = { ...list[index] };
-      list.push(item);
-      newSequenceList[sequence] = list;
-      return { ...state, hasChanges: true, cursor: [sequence, list.length - 1], current: { ...current, sequenceList: newSequenceList } }
+      [sequenceIndex, itemIndex] = payload;
+      sequence = [...newSequenceList[sequenceIndex]];
+      item = { ...sequence[itemIndex] };
+      sequence.push(item);
+      newSequenceList[sequenceIndex] = sequence;
+      return { ...state, hasChanges: true, cursor: [sequenceIndex, sequence.length - 1], current: { ...current, sequenceList: newSequenceList } }
+    case WORKOUT.DELETE_ITEM:
+      [sequenceIndex, itemIndex] = payload;
+      sequence = [...newSequenceList[sequenceIndex]];
+      sequence.splice(itemIndex, 1);
+      newSequenceList[sequenceIndex] = sequence;
+      return { ...state, hasChanges: true, current: { ...current, sequenceList: newSequenceList } };
     case WORKOUT.UPDATE_SEQUENCE:
       if (!cursor) return { ...state };
-      const [sequenceIndex, itemIndex] = cursor;
+      sequenceIndex = cursor[0];
       const outerList = [...sequenceList];
       const innerList = [...outerList[sequenceIndex]];
-      innerList[itemIndex || innerList.length] = payload;
+      itemIndex = cursor[1] === null ? innerList.length : cursor[1];
+      innerList[itemIndex] = payload;
       outerList[sequenceIndex] = innerList;
       return { ...state, current: { ...current, sequenceList: outerList }, cursor: undefined, hasChanges: true, exercise: null };
     case WORKOUT.DELETE_SEQUENCE:
       if (payload === null) payload = 0;
       newSequenceList.splice(payload, 1);
+      if (newSequenceList.length === 0) newSequenceList.push([]);
       return { ...state, hasChanges: true, current: { ...current, sequenceList: newSequenceList } };
     case WORKOUT.SELECT_WORKOUT:
       return { ...state, current: payload, cursor: undefined }
@@ -74,7 +84,7 @@ const WorkoutReducer: Reducer<WorkoutsState> = (state = initial, { type, payload
       let i = _.findIndex(newHistory, (workout) => workout._id === payload._id);
       if (i > -1) newHistory.splice(i, 1, payload);
       else newHistory.push(payload);
-      return { ...state, history: newHistory, saveEventSuccess: true, hasChanges: false };
+      return { ...state, current: payload, history: newHistory, saveEventSuccess: true, hasChanges: false };
     case WORKOUT.RESET_SAVE_EVENT:
       return { ...state, saveEventSuccess: false }
     case WORKOUT.SET_CURSOR_INDEX:

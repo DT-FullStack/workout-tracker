@@ -29,7 +29,10 @@
         border-width: 0px
         box-shadow: none !important
 
-
+.ui.menu
+  &.sticky
+    position: sticky
+    top: 10px
 
 .ui.button
   &.fill
@@ -47,7 +50,9 @@
     &:hover
       border-width: 0px
       box-shadow: none !important
-
+.ui.label
+  > .detail
+    margin-left: 0.5em
 
 .center
   text-align: center
@@ -78,15 +83,13 @@
       margin-left: 0
   .info
     flex-basis: 100%
-    .message
-      // padding: 0.5rem 1rem
-      position: absolute
-      font-size: 1.3em
-      width: 90%
-      // height: 100%
-      top: 50%
-      left: 50%
-      transform: translate(-50%, -50%)
+  .message
+    position: absolute
+    font-size: 1.3em
+    width: 90%
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
   .ui.input > input
     border-radius: 0
   > *
@@ -116,23 +119,36 @@
     border-radius: 5px 5px 0 0
     margin: 1rem -1px 0 -1px
     overflow: hidden
+    .label.alpha-index
+      border-radius: 0
+      border-width: 0
+      float: left
+      transform: translate(-0.6em, 0.6em)
     .item.compact
       padding-top: 0.5rem
       padding-bottom: 0.5rem
-    & > .item, > .header
+    > .item
+      &:last-child
+        padding-bottom: 0.21428571em
+      > .header
+        margin-bottom: 5px
+    > .item, > .header
+      position: relative
       padding-left: 0.5rem
       padding-right: 0.5rem
-    & > .header
+    > .header
       background-color: rgba(34,36,38,.15)
       line-height: 2
       margin-bottom: 0
-      &::after
-        content: ' sequence'
   &.props
     .toggle.checkbox // corresponds to radio button
       margin: 0.5rem    
 
-  
+.indent
+  @each $width in [0,1,2,3,4,5,6]
+    &-#{$width}
+      padding-left: #{$width  * 0.9}rem !important
+
 .float-right
   float: right !important
 
@@ -149,11 +165,10 @@
       flex-wrap: wrap
       align-items: center
       > img.image + .content
-        max-width: calc(100% - 80px)
+        width: calc(100% - 80px)
       &.active
         > img.image + .content
-          max-width: calc(100% - 300px)
-
+          width: 100%
 
 .ui.segment.basic
   padding: 1rem 0
@@ -202,9 +217,6 @@
 
 $delays: ('none':0,'short':1000ms,'medium':2000ms,'long':3000ms,'extended':5000ms)
 $fadeLengths: ('short':400ms,'medium':800ms,'long':1200ms,'extra-long':5000ms)
-   
-
-@each $var in list/map
    
 .fade-out
   @each $length, $fadeLength in $fadeLengths

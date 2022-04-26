@@ -16,11 +16,12 @@ interface AppNumberProps {
   textAlign?: 'left' | 'right' | 'center'
   leftLabel?: string
   rightLabel?: string
+  info?: string | JSX.Element
   options?: Partial<ExponentialChangeI>
 }
 
 const AppNumber = (props: AppNumberProps) => {
-  const { value, setValue, leftLabel, rightLabel, textAlign, options } = props;
+  const { value, setValue, leftLabel, rightLabel, textAlign, options, info } = props;
   const [error, setError] = useState<string | null>(null);
 
   const change = useRef(new AppExponentialChange({
@@ -46,20 +47,13 @@ const AppNumber = (props: AppNumberProps) => {
         <div className="value">{change.current.displayValue}</div>
         {rightLabel && label(rightLabel)}
         <div className="info">
+          {info}
           {error && <FadingMessage negative content={error} />}
         </div>
       </div>
       <Button icon="plus" size='tiny' onMouseDown={() => change.current.start('up')} onTouchStart={() => change.current.start('up')} />
     </div>
   )
-}
-
-AppNumber.propTypes = {
-  // second: PropTypes.
-}
-
-AppNumber.defaultProps = {
-
 }
 
 const mapStateToProps = (state: RootState) => ({})
