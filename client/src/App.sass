@@ -34,6 +34,12 @@
     position: sticky
     top: 10px
 
+.ui.buttons
+  &.basic
+    .button
+      &.red
+        background-color: #db2828 !important
+        color: #fff !important
 .ui.button
   &.fill
     height:100%
@@ -222,6 +228,10 @@ $fadeLengths: ('short':400ms,'medium':800ms,'long':1200ms,'extra-long':5000ms)
   @each $length, $fadeLength in $fadeLengths
     &-#{$length}
       animation: fadeOut $fadeLength ease-in forwards
+.fade-in
+  @each $length, $fadeLength in $fadeLengths
+    &-#{$length}
+      animation: fadeIn $fadeLength ease-in forwards
 
 @each $length, $delayLength in $delays
   .delay-#{$length}
@@ -230,4 +240,8 @@ $fadeLengths: ('short':400ms,'medium':800ms,'long':1200ms,'extra-long':5000ms)
 @keyframes fadeOut
   100%
     opacity: 0
-    // z-index: -1
+@keyframes fadeIn
+  0%
+    opacity: 0    
+  100%
+    opacity: 1

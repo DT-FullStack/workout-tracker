@@ -18,7 +18,7 @@ interface ExerciseImageProps extends PropsFromRedux, Partial<AppPlaceholderImage
 
 const ExerciseImage = ({ exercise, altText, ...otherProps }: ExerciseImageProps) => {
   return (
-    <AppPlaceholderImage className='exercise-image' altText={exercise.name} src={exercise.gifUrl} {...otherProps} />
+    <AppPlaceholderImage placeholderStyle={{ width: '80px', height: '80px' }} className='exercise-image' altText={exercise.name} src={exercise.gifUrl} {...otherProps} />
   )
 }
 

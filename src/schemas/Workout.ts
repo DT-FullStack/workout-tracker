@@ -26,7 +26,9 @@ export const workoutSchema = new Schema<IWorkout, WorkoutSchema>({
 })
 
 workoutSchema.statics.findAndPopulate = async function (params: { [key: string]: any }) {
-  return this.find(params).populate({ path: 'sequenceList', populate: { path: 'exercise', model: 'Exercise' } });
+  return this.find(params)
+    .populate({ path: 'sequenceList', populate: { path: 'exercise', model: 'Exercise' } })
+    .sort('-datetime.start');
 }
 
 workoutSchema.methods.serialize = function () {

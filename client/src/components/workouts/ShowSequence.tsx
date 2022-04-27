@@ -10,6 +10,7 @@ import CurrentSequenceItem from './CurrentSequenceItem';
 import ShowSequenceItem from './ShowSequenceItem';
 import { Exercise } from 'models/Exercise';
 import { indexToAlpha } from '../utils/AlphaNumMap';
+import ConfirmDelete from 'components/utils/ConfirmDelete';
 
 const mapStateToProps = ({ workout, auth }: RootState) => ({
   isSearching: workout.isSearching,
@@ -51,10 +52,11 @@ const ShowSequence = ({ sequence, compact, index, editable, cursor, openSearch, 
       </List>
       {editable &&
         <React.Fragment>
-          <Button.Group fluid className='bottom attached' basic >
+          <Button.Group fluid className='bottom attached' basic widths={3} >
             <Button icon="plus" alt="Add new exercise" onClick={() => { openSearch([index, sequence.length]); }} />
             <Button icon="copy" onClick={() => { }} />
-            <Button icon="trash" onClick={() => { deleteSequence(index) }} />
+            <ConfirmDelete onConfirm={() => deleteSequence(index)} />
+            {/* <Button icon="trash" onClick={() => { deleteSequence(index) }} /> */}
           </Button.Group>
           {hasCursor() && <CurrentSequenceItem />}
         </React.Fragment>

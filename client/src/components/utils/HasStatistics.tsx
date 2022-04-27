@@ -4,9 +4,6 @@ import { Label } from "semantic-ui-react";
 type Statistic = [number, string] | string;
 export type StatCreator = () => Statistic | undefined;
 
-// export interface GivesStats {
-//   statMethods: () => StatCreator[]
-// }
 
 export abstract class HasStatistics {
   public abstract statMethods(): StatCreator[];
@@ -25,5 +22,12 @@ export abstract class HasStatistics {
           ? <Label key={s} content={stat} />
           : <Label key={s} content={stat[0]} detail={stat[1]} />)}
     </React.Fragment>
+
+  createStat = (value: number, label?: string): StatCreator =>
+    () => value && value !== 0
+      ? label
+        ? [value, label] : `${value}`
+      : undefined;
+  decimal = (value: number, decimals: number = 2): number => Math.floor(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }
 

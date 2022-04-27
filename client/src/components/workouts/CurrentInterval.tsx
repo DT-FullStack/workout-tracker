@@ -6,7 +6,7 @@ import AppNumber from 'components/form/AppNumber'
 import { setWorkoutCursor, updateSequenceItem } from '../../redux/actions/workout';
 import { WorkoutInterval } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
-import { secondsToMinutes } from 'components/utils/AppDateTime'
+import { secondsToMinuteString } from 'components/utils/AppDateTime'
 
 const mapStateToProps = (state: RootState) => ({})
 const mapDispatchToProps = { setWorkoutCursor, updateSequenceItem }
@@ -21,7 +21,7 @@ interface CurrentIntervalProps extends PropsFromRedux {
   edit?: boolean
 }
 
-const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSequenceItem }: CurrentIntervalProps) => {
+const CurrentInterval = ({ exercise, initial = {}, updateSequenceItem }: CurrentIntervalProps) => {
   const [duration, setDuration] = useState(initial.duration || 60)
   const [weight, setWeight] = useState(initial.weight || 25)
   const [speed, setSpeed] = useState(initial.speed || 3)
@@ -59,10 +59,10 @@ const CurrentInterval = ({ exercise, initial = {}, setWorkoutCursor, updateSeque
         <Radio label="Vertical Rise" toggle checked={showingVerticalRise} onClick={() => setShowingVerticalRise(!showingVerticalRise)} />
         <Radio label="Calories" toggle checked={showingCalories} onClick={() => setShowingCalories(!showingCalories)} />
       </Form.Field>
-      <AppNumber options={{ min: 10, max: 2000 * 60, step: 10, initial: 10 * 60, transformValue: secondsToMinutes }} rightLabel="min" value={duration} setValue={setDuration} />
+      <AppNumber options={{ min: 10, max: 2000 * 60, step: 10, initial: duration, transformValue: secondsToMinuteString }} rightLabel="min" value={duration} setValue={setDuration} />
       {showingWeight && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: weight }} rightLabel="lbs" value={weight} setValue={setWeight} />}
       {showingSpeed && <AppNumber options={{ min: 1, max: 2000, step: 0.1, initial: speed, decimals: 1 }} rightLabel="mph" value={speed} setValue={setSpeed} />}
-      {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.1, initial: distance, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
+      {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.05, initial: distance, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
       {showingIncline && <AppNumber options={{ min: 0, max: 100, step: 0.1, initial: incline, decimals: 1 }} rightLabel="% incline" value={incline} setValue={setIncline} />}
       {showingVerticalRise && <AppNumber options={{ min: 0, max: 2000, step: 1, initial: verticalRise }} rightLabel="vertical ft" value={verticalRise} setValue={setVerticalRise} />}
       {showingCalories && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: calories }} rightLabel="calories" value={calories} setValue={setCalories} />}

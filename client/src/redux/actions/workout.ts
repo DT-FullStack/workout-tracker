@@ -14,6 +14,8 @@ export const endWorkout: WorkoutAction<number> = (timestamp) => action(WORKOUT.S
 export const clearStart: WorkoutAction<null> = () => action(WORKOUT.SET_START, null);
 export const clearEnd: WorkoutAction<null> = () => action(WORKOUT.SET_END, null);
 
+export const triggerChange: WorkoutAction = () => action(WORKOUT.TRIGGER_CHANGE)
+
 export const selectExerciseForWorkout: WorkoutAction<Exercise> = (exercise) => action(WORKOUT.SELECT_EXERCISE, exercise)
 
 export const updateSequenceItem: WorkoutAction<WorkoutSet | WorkoutInterval> = (item) => action(WORKOUT.UPDATE_SEQUENCE, item);

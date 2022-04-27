@@ -55,12 +55,13 @@ export const humanDuration = (units: (keyof DurationLikeObject)[] = ['hours', 'm
   }
 }
 
-export const secondsToMinutes = (value: number): string => {
+export const secondsToMinuteString = (value: number): string => {
   const minutes = Math.floor(value / 60), seconds = value % 60;
   return minutes && seconds ?
     `${minutes}:${seconds}`
     : minutes ?
       `${minutes}:00`
       : `00:${seconds}`
-
 }
+
+export const secondsToHours = (value: number): number => value / 60 / 60

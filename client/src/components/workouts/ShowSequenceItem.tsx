@@ -1,3 +1,4 @@
+import ConfirmDelete from 'components/utils/ConfirmDelete';
 import StatLabels from 'components/utils/StatLabels';
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
@@ -41,7 +42,8 @@ const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, indentI
         : <React.Fragment>
           <Button basic icon="edit" alt="Edit" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
           <Button basic icon="copy" alt="Duplicate" onClick={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
-          <Button basic icon="trash" alt="Delete" onClick={() => { deleteSequenceItem([sequenceIndex, index]) }} />
+          <ConfirmDelete rounded basic alt="Delete" onConfirm={() => deleteSequenceItem([sequenceIndex, index])} />
+          {/* <Button basic icon="trash" alt="Delete" onClick={() => { deleteSequenceItem([sequenceIndex, index]) }} /> */}
         </React.Fragment>}
     </Button.Group>
   // const renderAlphaIndex = () =>
