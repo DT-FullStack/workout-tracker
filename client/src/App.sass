@@ -6,6 +6,17 @@
       padding-right: 0.4rem
       box-shadow: none !important
       border-width: 0px
+  &.basic
+    .green.button
+      background-color: rgb(33, 186, 69) !important
+      color: white !important
+      &:hover
+        background-color: rgb(28, 165, 60) !important
+    .red.button
+      background-color: rgb(208, 25, 25) !important
+      color: white !important
+      &:hover
+        background-color: rgb(158, 18, 18) !important
   .or.lined
     &::before
       border: 1px solid rgba(34,36,38,.15)
@@ -34,12 +45,6 @@
     position: sticky
     top: 10px
 
-.ui.buttons
-  &.basic
-    .button
-      &.red
-        background-color: #db2828 !important
-        color: #fff !important
 .ui.button
   &.fill
     height:100%
@@ -195,7 +200,11 @@
           z-index: 5
           transform: translateY(-3px)
 
-.image
+.ui.image
+  &.loading
+    position: absolute
+    margin-top: 0
+    opacity: 0.5
   &.exercise-image
     transition: width 200ms
 
@@ -245,3 +254,8 @@ $fadeLengths: ('short':400ms,'medium':800ms,'long':1200ms,'extra-long':5000ms)
     opacity: 0    
   100%
     opacity: 1
+@keyframes name
+  0%
+    
+  100%
+    

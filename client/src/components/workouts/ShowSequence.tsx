@@ -2,15 +2,16 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Button, List } from 'semantic-ui-react';
-import { WorkoutSequence, WorkoutSet, WorkoutInterval } from '../../models/Workout';
+import { WorkoutSequence } from '../../models/Workout';
 import _ from 'lodash';
+import { v4 as uuid } from 'uuid';
 import { setWorkoutCursor, openSearch, addNewSequence, deleteSequence } from '../../redux/actions/workout';
-import ExerciseSearch from 'components/exercises/ExerciseSearch';
 import CurrentSequenceItem from './CurrentSequenceItem';
 import ShowSequenceItem from './ShowSequenceItem';
 import { Exercise } from 'models/Exercise';
-import { indexToAlpha } from '../utils/AlphaNumMap';
 import ConfirmDelete from 'components/utils/ConfirmDelete';
+import ConfirmCopy from 'components/utils/ConfirmCopy';
+
 
 const mapStateToProps = ({ workout, auth }: RootState) => ({
   isSearching: workout.isSearching,
@@ -42,19 +43,19 @@ const ShowSequence = ({ sequence, compact, index, editable, cursor, openSearch, 
   const renderCompact = () =>
     <List className='sequence'>
       <List.Header as="h3" content={headerText()} />
-      {compactList.map((item, i) => <ShowSequenceItem key={i} index={i} sequenceIndex={index} compact indentIndex={indentIndex(item.exercise)} item={item} />)}
+      {compactList.map((item, i) => <ShowSequenceItem key={uuid()} index={i} sequenceIndex={index} compact indentIndex={indentIndex(item.exercise)} item={item} />)}
     </List>
   const renderExpanded = () =>
     <React.Fragment>
       <List className='sequence' divided>
         <List.Header as="h3" content={headerText()} />
-        {sequence.map((item, i) => <ShowSequenceItem key={i} index={i} sequenceIndex={index} indentIndex={indentIndex(item.exercise)} item={item} />)}
+        {sequence.map((item, i) => <ShowSequenceItem key={uuid()} index={i} sequenceIndex={index} indentIndex={indentIndex(item.exercise)} item={item} />)}
       </List>
       {editable &&
         <React.Fragment>
           <Button.Group fluid className='bottom attached' basic widths={3} >
             <Button icon="plus" alt="Add new exercise" onClick={() => { openSearch([index, sequence.length]); }} />
-            <Button icon="copy" onClick={() => { }} />
+            <ConfirmCopy onConfirm={() => { }} />
             <ConfirmDelete onConfirm={() => deleteSequence(index)} />
             {/* <Button icon="trash" onClick={() => { deleteSequence(index) }} /> */}
           </Button.Group>

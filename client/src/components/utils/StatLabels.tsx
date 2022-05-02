@@ -7,9 +7,17 @@ interface StatLabelsProps extends LabelGroupProps {
 }
 
 const StatLabels = ({ stats, ...labelGroupProps }: StatLabelsProps) => {
+  const renderStatLabels = (): JSX.Element =>
+    <React.Fragment>
+      {stats.getStats().map((stat, s) =>
+        typeof stat === 'string'
+          ? <Label key={s} content={stat} />
+          : <Label key={s} content={stat[0]} detail={stat[1]} />)}
+    </React.Fragment>
+
   return (
     <Label.Group {...labelGroupProps}>
-      {stats.renderStatLabels()}
+      {renderStatLabels()}
     </Label.Group>
   )
 }

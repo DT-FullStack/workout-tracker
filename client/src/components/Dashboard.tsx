@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../redux/store'
 import { Card, Header, Segment } from 'semantic-ui-react';
 import { ButtonLink } from './nav/ButtonLink';
+import { v4 as uuid } from "uuid";
 // import _ from 'lodash';
 import { Workout } from '../models/Workout';
 import ChunkCardList from './utils/ChunkCardList';
@@ -32,7 +33,7 @@ const Dashboard = ({ history, auth, currentWorkout, selectWorkout, fetchWorkoutH
     key={workout._id} workout={workout} onClickHandler={() => { if (workout._id !== currentWorkout._id) selectWorkout(workout) }}
     details={workout.sequenceList.length
       ? <React.Fragment>
-        {workout.sequenceList.map((sequence, s) => <ShowSequence key={s} index={s} compact sequence={sequence} />)}
+        {workout.sequenceList.map((sequence, s) => <ShowSequence key={uuid()} index={s} compact sequence={sequence} />)}
       </React.Fragment>
       : <Card fluid content="No sets or intervals" />}
   />

@@ -28,7 +28,6 @@ export class UserHttp extends AppAxios {
       baseURL: '/auth',
       withCredentials: true,
     })
-    // this.api.interceptors.response.use(this.checkResponseForToken)
     this.checkStorageForToken();
   }
 
@@ -37,14 +36,7 @@ export class UserHttp extends AppAxios {
   private storedToken = (): string | null => {
     return storage.getItem('accessToken');
   }
-  // private checkResponseForToken = (response: AppAxiosResponse) => {
-  //   let { accessToken } = response;
-  //   if (accessToken) {
-  //     storage.setItem('accessToken', accessToken);
-  //     this.setTokenHeader(accessToken);
-  //   }
-  //   return response;
-  // }
+
   private checkStorageForToken = () => {
     const accessToken = this.storedToken();
     if (accessToken) this.setTokenHeader(accessToken);

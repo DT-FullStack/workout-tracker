@@ -7,7 +7,6 @@ export class AppAxios {
   constructor(config: AxiosRequestConfig) {
     this.api = axios.create(config);
     this.api.interceptors.request.use(this.addTokenToHeader);
-    // this.api.interceptors.response.use(this.getData);
   }
 
   protected getData = ({ data }: AxiosResponse) => data;

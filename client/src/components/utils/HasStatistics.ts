@@ -15,13 +15,13 @@ export abstract class HasStatistics {
     }
     return stats;
   }
-  renderStatLabels = (): JSX.Element =>
-    <React.Fragment>
-      {this.getStats().map((stat, s) =>
-        typeof stat === 'string'
-          ? <Label key={s} content={stat} />
-          : <Label key={s} content={stat[0]} detail={stat[1]} />)}
-    </React.Fragment>
+  // renderStatLabels = (): JSX.Element =>
+  //   <React.Fragment>
+  //     {this.getStats().map((stat, s) =>
+  //       typeof stat === 'string'
+  //         ? <Label key={s} content={stat} />
+  //         : <Label key={s} content={stat[0]} detail={stat[1]} />)}
+  //   </React.Fragment>
 
   createStat = (value: number, label?: string): StatCreator =>
     () => value && value !== 0

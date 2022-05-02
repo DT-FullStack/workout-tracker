@@ -9,6 +9,9 @@ import WorkoutDatetime from './WorkoutDatetime'
 import { deleteWorkout, duplicateWorkout } from '../../redux/actions/workout';
 import ButtonLink from 'components/nav/ButtonLink'
 import { useNavigate } from 'react-router-dom'
+import ConfirmDelete from 'components/utils/ConfirmDelete'
+import ConfirmCopy from 'components/utils/ConfirmCopy'
+import ConfirmEdit from 'components/utils/ConfirmEdit'
 
 const mapStateToProps = (state: RootState) => ({})
 const mapDispatchToProps = { deleteWorkout, duplicateWorkout }
@@ -44,9 +47,9 @@ const WorkoutListCard = ({ workout, active, details, className = "workout", onCl
           {workoutBodyParts + ' Workout'}
           {!active && <div className='right floated'> {new AppDateTime(workout.datetime.start).mini()}</div>}
           {active && <Button.Group compact floated='right'>
-            <ButtonLink basic to={"/dashboard/workout"} icon="edit" alt="Edit Workout" />
-            <Button basic icon="copy" alt="Copy as New Workout" onClick={() => { duplicateWorkout(workout); navigate('/dashboard/workout') }} />
-            <Button basic icon="trash" alt="Delete Workout" onClick={() => deleteWorkout(workout)} />
+            <ButtonLink basic title="Edit Workout" to={"/dashboard/workout"} icon="edit" />
+            <ConfirmCopy basic title="Copy Workout" rounded onConfirm={() => { duplicateWorkout(workout); navigate('/dashboard/workout') }} />
+            <ConfirmDelete basic title="Delete Workout" rounded onConfirm={() => deleteWorkout(workout)} />
           </Button.Group>}
         </Card.Header>
         <Card.Meta content={workoutMuscles} />

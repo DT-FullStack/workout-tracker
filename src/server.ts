@@ -79,6 +79,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('**', (req, res) => {
+  res.header('X-REFERRAL-PATH', req.path);
   res.redirect('/')
 })
 

@@ -1,3 +1,4 @@
+import ConfirmCopy from 'components/utils/ConfirmCopy';
 import ConfirmDelete from 'components/utils/ConfirmDelete';
 import StatLabels from 'components/utils/StatLabels';
 import React from 'react'
@@ -41,7 +42,8 @@ const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, indentI
         ? <Button basic icon="x" alt="Cancel" onClick={() => setWorkoutCursor()} />
         : <React.Fragment>
           <Button basic icon="edit" alt="Edit" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
-          <Button basic icon="copy" alt="Duplicate" onClick={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
+          {/* <Button basic icon="copy" alt="Duplicate" onClick={() => { duplicateSequenceItem([sequenceIndex, index]) }} /> */}
+          <ConfirmCopy rounded basic onConfirm={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
           <ConfirmDelete rounded basic alt="Delete" onConfirm={() => deleteSequenceItem([sequenceIndex, index])} />
           {/* <Button basic icon="trash" alt="Delete" onClick={() => { deleteSequenceItem([sequenceIndex, index]) }} /> */}
         </React.Fragment>}

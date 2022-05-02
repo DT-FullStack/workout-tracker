@@ -6,12 +6,11 @@ import { BackButton } from 'components/nav/Buttons/BackButton';
 import ShowWorkout from './ShowWorkout';
 import { saveWorkout, resetSaveTracker, triggerChange } from '../../redux/actions/workout';
 
-const mapStateToProps = ({ workout: { current, changeEvent, isSearching, hasChanges }, exercises }: RootState) => ({
+const mapStateToProps = ({ workout: { current, emittedChangeEvent, isSearching, hasChanges }, exercises }: RootState) => ({
   workout: current,
-  changeEvent,
+  emittedChangeEvent,
   isSearching,
   hasChanges
-
 })
 
 const mapDispatchToProps = { saveWorkout, triggerChange }
@@ -22,17 +21,16 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 interface CurrentWorkoutProps extends PropsFromRedux { }
 
-const CurrentWorkout = ({ workout, isSearching, changeEvent, hasChanges, triggerChange, saveWorkout }: CurrentWorkoutProps) => {
-  const buttonText = workout._id !== undefined ? 'Save Changes' : 'Record Workout';
+const CurrentWorkout = ({ workout, isSearching, emittedChangeEvent, hasChanges, triggerChange, saveWorkout }: CurrentWorkoutProps) => {
+  const buttonText = workout._id !== undefined ? 'Save Changes' : 'Save Workout';
   const timer = useRef<ReturnType<typeof setTimeout>>();
   useEffect(() => {
-    if (changeEvent) {
-      if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => { if (hasChanges) { saveWorkout(workout) } }, 10 * 1000)
+    if (emittedChangeEvent) {
       triggerChange();
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => { if (hasChanges) saveWorkout(workout) }, 2 * 1000)
     }
-    // return () => { if (timer.current) clearTimeout(timer.current) }
-  }, [changeEvent, triggerChange, hasChanges])
+  }, [emittedChangeEvent, triggerChange, hasChanges])
   return (
     <Segment basic>
       <Menu secondary>

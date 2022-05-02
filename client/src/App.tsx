@@ -42,14 +42,3 @@ function App() {
 
 export default App;
 
-// App.propTypes = {
-//   // second: PropTypes.
-// }
-
-// const mapStateToProps = (state: RootState) => ({
-//   authenticated: state.auth.authenticated
-// })
-
-// const mapDispatchToProps = {}
-
-// export default connect(mapStateToProps, mapDispatchToProps)(App)

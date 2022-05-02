@@ -62,7 +62,7 @@ const CurrentInterval = ({ exercise, initial = {}, updateSequenceItem }: Current
       <AppNumber options={{ min: 10, max: 2000 * 60, step: 10, initial: duration, transformValue: secondsToMinuteString }} rightLabel="min" value={duration} setValue={setDuration} />
       {showingWeight && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: weight }} rightLabel="lbs" value={weight} setValue={setWeight} />}
       {showingSpeed && <AppNumber options={{ min: 1, max: 2000, step: 0.1, initial: speed, decimals: 1 }} rightLabel="mph" value={speed} setValue={setSpeed} />}
-      {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.05, initial: distance, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
+      {showingDistance && <AppNumber options={{ min: 0.1, max: 200, step: 0.01, initial: distance, decimals: 2 }} rightLabel="miles" value={distance} setValue={setDistance} />}
       {showingIncline && <AppNumber options={{ min: 0, max: 100, step: 0.1, initial: incline, decimals: 1 }} rightLabel="% incline" value={incline} setValue={setIncline} />}
       {showingVerticalRise && <AppNumber options={{ min: 0, max: 2000, step: 1, initial: verticalRise }} rightLabel="vertical ft" value={verticalRise} setValue={setVerticalRise} />}
       {showingCalories && <AppNumber options={{ min: 1, max: 2000, step: 1, initial: calories }} rightLabel="calories" value={calories} setValue={setCalories} />}

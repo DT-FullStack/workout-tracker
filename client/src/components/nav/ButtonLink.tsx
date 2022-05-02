@@ -9,11 +9,9 @@ interface ButtonLinkProps extends ButtonProps {
 }
 
 export const ButtonLink = (props: ButtonLinkProps) => {
-  // const { to, content, color, fluid,icon } = props;
   const { to, ...buttonProps } = props;
   return (
     <Link to={to} className="button-link">
-      {/* <Button content={content} icon={ icon} color={color} fluid={fluid} /> */}
       <Button {...buttonProps} />
     </Link>
   )
