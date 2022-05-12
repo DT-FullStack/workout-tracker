@@ -28,7 +28,7 @@ const ChunkNavBar = ({ chunks, chunkSize, chunkIndex, setChunkIndex }: ChunkNavB
   }, [chunkIndex])
 
   return (
-    <Menu attached="top" className='chunk sticky'>
+    <Menu attached="top" className='chunk'>
       <Menu.Item icon disabled={chunkIndex === 0} onClick={decrementIndex} content={<Icon name='arrow left' />} />
       <div ref={menuRef} className="menu chunk body" style={{ overflow: 'hidden' }}>
         {chunks.map((chunk, index) => <Menu.Item key={index} active={index === chunkIndex} onClick={() => setChunkIndex(index)} content={chunkLabel(index, chunk.length, chunkSize)} />)}

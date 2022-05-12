@@ -40,7 +40,7 @@ interface SearchRequest extends Request {
 }
 const search: RequestHandler = async ({ body: params }: SearchRequest, res) => {
   const query = Exercise.getFindQuery(params);
-  const exercises = await Exercise.find(query);
+  const exercises = await Exercise.find(query).sort('name');
 
   res.json(exercises);
 }

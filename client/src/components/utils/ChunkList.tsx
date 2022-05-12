@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Header, List, StrictListProps } from 'semantic-ui-react';
 import ChunkNavBar from 'components/nav/ChunkNavBar';
+import ChunkNavHeader from './ChunkNavHeader';
 
 interface ChunkListProps extends StrictListProps {
   list: any[]
@@ -16,12 +17,14 @@ interface ChunkListProps extends StrictListProps {
 const ChunkList = ({ list, chunkSize, header, renderItem, emptyMessage, ...listProps }: ChunkListProps) => {
   const chunks = _.chunk(list, chunkSize);
   const [chunkIndex, setChunkIndex] = useState(0);
-  const headerIsString: boolean = typeof header === 'string';
-  const renderHeader = () => headerIsString ? <Header content={header} /> : header;
+  // const headerIsString: boolean = typeof header === 'string';
+  // const renderHeader = () => headerIsString ? <Header content={header} /> : header;
+  const headerProps = { header, chunks, chunkSize, chunkIndex, setChunkIndex };
   return (
     <div className="chunk list">
-      {header && <Header content={renderHeader()} />}
-      <ChunkNavBar chunks={chunks} chunkSize={chunkSize} chunkIndex={chunkIndex} setChunkIndex={setChunkIndex} />
+      <ChunkNavHeader {...headerProps} />
+      {/* {header && <Header content={renderHeader()} />}
+      <ChunkNavBar chunks={chunks} chunkSize={chunkSize} chunkIndex={chunkIndex} setChunkIndex={setChunkIndex} /> */}
       <List {...listProps}>
         {chunks.length ? chunks[chunkIndex].map((item: any) => renderItem(item)) : <List.Item content={emptyMessage || 'No results'} />}
       </List>

@@ -55,8 +55,8 @@ const ShowSequence = ({ sequence, compact, index, editable, cursor, openSearch, 
         <React.Fragment>
           <Button.Group fluid className='bottom attached' basic widths={3} >
             <Button icon="plus" alt="Add new exercise" onClick={() => { openSearch([index, sequence.length]); }} />
-            <ConfirmCopy onConfirm={() => { }} />
-            <ConfirmDelete onConfirm={() => deleteSequence(index)} />
+            <ConfirmCopy position='center' onConfirm={() => { }} />
+            <ConfirmDelete position='right' onConfirm={() => deleteSequence(index)} />
             {/* <Button icon="trash" onClick={() => { deleteSequence(index) }} /> */}
           </Button.Group>
           {hasCursor() && <CurrentSequenceItem />}

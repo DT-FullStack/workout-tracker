@@ -22,7 +22,8 @@ exerciseSchema.methods.serialize = function () {
 exerciseSchema.statics.getFindQuery = function (params: FilterQuery<IExercise>) {
   const query: FilterQuery<IExercise> = { ...params };
   if (query.name) {
-    query.name = { $regex: `\\b${query.name}`, $options: 'i' }
+    const regex = query.name.trim().split(' ').map((n: string) => `(?=.*(?:\\b${n}|${n}\\b))`).join('');
+    query.name = { $regex: regex, $options: 'i' }
   }
   return query;
 }

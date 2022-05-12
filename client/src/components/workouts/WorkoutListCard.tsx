@@ -48,8 +48,8 @@ const WorkoutListCard = ({ workout, active, details, className = "workout", onCl
           {!active && <div className='right floated'> {new AppDateTime(workout.datetime.start).mini()}</div>}
           {active && <Button.Group compact floated='right'>
             <ButtonLink basic title="Edit Workout" to={"/dashboard/workout"} icon="edit" />
-            <ConfirmCopy basic title="Copy Workout" rounded onConfirm={() => { duplicateWorkout(workout); navigate('/dashboard/workout') }} />
-            <ConfirmDelete basic title="Delete Workout" rounded onConfirm={() => deleteWorkout(workout)} />
+            <ConfirmCopy position='center' basic title="Copy Workout" rounded onConfirm={() => { duplicateWorkout(workout); navigate('/dashboard/workout') }} />
+            <ConfirmDelete position='right' basic title="Delete Workout" rounded onConfirm={() => deleteWorkout(workout)} />
           </Button.Group>}
         </Card.Header>
         <Card.Meta content={workoutMuscles} />

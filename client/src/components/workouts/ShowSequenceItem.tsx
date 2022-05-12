@@ -42,14 +42,10 @@ const ShowSequenceItem = ({ workout, cursor, sequenceIndex, index, item, indentI
         ? <Button basic icon="x" alt="Cancel" onClick={() => setWorkoutCursor()} />
         : <React.Fragment>
           <Button basic icon="edit" alt="Edit" onClick={() => { setWorkoutCursor([sequenceIndex, index]) }} />
-          {/* <Button basic icon="copy" alt="Duplicate" onClick={() => { duplicateSequenceItem([sequenceIndex, index]) }} /> */}
-          <ConfirmCopy rounded basic onConfirm={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
-          <ConfirmDelete rounded basic alt="Delete" onConfirm={() => deleteSequenceItem([sequenceIndex, index])} />
-          {/* <Button basic icon="trash" alt="Delete" onClick={() => { deleteSequenceItem([sequenceIndex, index]) }} /> */}
+          <ConfirmCopy position='right' rounded basic onConfirm={() => { duplicateSequenceItem([sequenceIndex, index]) }} />
+          <ConfirmDelete position='right' rounded basic alt="Delete" onConfirm={() => deleteSequenceItem([sequenceIndex, index])} />
         </React.Fragment>}
     </Button.Group>
-  // const renderAlphaIndex = () =>
-
 
   const renderCompact = () =>
     <List.Item content={exercise.name} />

@@ -1,5 +1,16 @@
 
 .ui.buttons
+  position: relative
+  &.right.floated
+    .confirm-button
+      // position: absolute
+      // right: 0
+      // z-index: 1
+      box-shadow: -5px 0px 10px #fff !important
+  &.fluid
+    .confirm-button
+      // position: a
+      + .ui.button
   &.compact
     .ui.button.icon
       padding-left: 0.4rem
@@ -17,6 +28,7 @@
       color: white !important
       &:hover
         background-color: rgb(158, 18, 18) !important
+  
   .or.lined
     &::before
       border: 1px solid rgba(34,36,38,.15)
@@ -45,6 +57,9 @@
     position: sticky
     top: 10px
 
+$pop1: cubic-bezier(0.39,0.13,0.66,1.47)
+$pop2: cubic-bezier(0.76,0.07,0.6,1.47)
+
 .ui.button
   &.fill
     height:100%
@@ -61,6 +76,29 @@
     &:hover
       border-width: 0px
       box-shadow: none !important
+  &.confirm-button
+    position: absolute
+    z-index: 1
+    transform-origin: center
+    &.center
+      left: 50%
+      transform: translateX(-50%)
+      animation: fadeIn 500ms, fadeOut 250ms, growInXShift 250ms, shrinkOutXShift 250ms
+      animation-delay: 0ms, 4750ms
+      animation-timing-function: ease-in, ease, $pop2, ease-in
+      animation-fill-mode: forwards
+    &.left
+      left: 0
+      animation: fadeIn 500ms, fadeOut 250ms, growIn 250ms, shrinkOut 250ms
+      animation-delay: 0ms, 4750ms
+      animation-timing-function: ease-in, ease, $pop2, ease-in
+      animation-fill-mode: forwards
+    &.right
+      right: 0
+      animation: fadeIn 500ms, fadeOut 250ms, growIn 250ms, shrinkOut 250ms
+      animation-delay: 0ms, 4750ms
+      animation-timing-function: ease-in, ease, $pop2, ease-in
+      animation-fill-mode: forwards
 .ui.label
   > .detail
     margin-left: 0.5em
@@ -230,6 +268,20 @@
           border-radius: 3px !important
           border: 1px solid rgba(34,36,38,.15) !important
 
+.sticky
+  &.chunk.nav.header
+    background-color: #fff
+    position: sticky
+    top: 0px
+    z-index: 2
+    padding-top: 10px
+    margin-top: -10px
+    box-shadow: 0px 20px 20px #fff
+  &.workout.datetime
+    position: sticky
+    top: 0px
+    z-index: 1
+
 $delays: ('none':0,'short':1000ms,'medium':2000ms,'long':3000ms,'extended':5000ms)
 $fadeLengths: ('short':400ms,'medium':800ms,'long':1200ms,'extra-long':5000ms)
    
@@ -246,6 +298,22 @@ $fadeLengths: ('short':400ms,'medium':800ms,'long':1200ms,'extra-long':5000ms)
   .delay-#{$length}
     animation-delay: $delayLength
 
+@keyframes shrinkOut
+  100%
+    transform: scale(0)
+@keyframes shrinkOutXShift
+  100%
+    transform: translateX(-50%) scale(0)
+@keyframes growIn
+  0% 
+    transform: scale(0)
+  100%
+    transform: scale(1)
+@keyframes growInXShift
+  0%
+    transform: translate(-50%) scale(0)
+  100%
+    transform: translate(-50%) scale(1)
 @keyframes fadeOut
   100%
     opacity: 0

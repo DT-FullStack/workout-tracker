@@ -41,7 +41,6 @@ const WorkoutDatetime = ({ workout, isEditable = true, compact, startWorkout, en
           ? <Card.Content textAlign='center'  >
             <Card.Header>{startTime.toTimeOrDateTimeString()}</Card.Header>
             <Card.Meta content='Start Time' />
-            {reset(clearStart)}
           </Card.Content>
           : <Button className='fill' color='green' content="Start" onClick={() => startWorkout(Date.now())} />
         }

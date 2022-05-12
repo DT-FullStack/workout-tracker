@@ -28,7 +28,7 @@ class Login extends FormComponent<SignInProps, SignInRequest>{
         <Form>
           <Form.Input id="email" onChange={this.update} value={email} name="email" label="Email" type="email" fluid placeholder="Your email" />
           <Form.Input id="password" onChange={this.update} value={password} name='password' label='Password' type='password' fluid />
-          <Form.Button onClick={this.submit}>submit</Form.Button>
+          <Form.Button color="blue" onClick={this.submit}>submit</Form.Button>
         </Form>
 
       </React.Fragment>
