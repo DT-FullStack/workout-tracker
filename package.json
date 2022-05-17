@@ -17,6 +17,7 @@
   "author": "David Taylor",
   "license": "ISC",
   "dependencies": {
+    "@codewizard-dt/react-semantic-datetime-picker": "0.0.20",
     "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",

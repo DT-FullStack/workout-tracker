@@ -7,6 +7,7 @@ import { AppDateTime } from '../utils/AppDateTime';
 import { startWorkout, endWorkout, clearStart, clearEnd } from '../../redux/actions/workout';
 import { IconButton } from 'components/utils/AppIconButton';
 import _ from 'lodash'
+import { DateTimePicker } from '@codewizard-dt/react-semantic-datetime-picker';
 
 const mapStateToProps = (state: RootState) => ({})
 
@@ -39,7 +40,7 @@ const WorkoutDatetime = ({ workout, isEditable = true, compact, startWorkout, en
       <Card className='green'>
         {startTime
           ? <Card.Content textAlign='center'  >
-            <Card.Header>{startTime.toTimeOrDateTimeString()}</Card.Header>
+            <Card.Header><DateTimePicker initial={startTime.dt} /></Card.Header>
             <Card.Meta content='Start Time' />
           </Card.Content>
           : <Button className='fill' color='green' content="Start" onClick={() => startWorkout(Date.now())} />
@@ -48,7 +49,7 @@ const WorkoutDatetime = ({ workout, isEditable = true, compact, startWorkout, en
       <Card color='red'>
         {endTime
           ? <Card.Content textAlign='center' >
-            <Card.Header content={endTime.toTimeOrDateTimeString()} />
+            <Card.Header content={<DateTimePicker initial={endTime.dt} />} />
             <Card.Meta content='End Time' />
             {reset(clearEnd)}
           </Card.Content>

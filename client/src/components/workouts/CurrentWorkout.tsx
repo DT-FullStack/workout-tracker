@@ -28,7 +28,7 @@ const CurrentWorkout = ({ workout, isSearching, emittedChangeEvent, hasChanges, 
     if (emittedChangeEvent) {
       triggerChange();
       if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => { if (hasChanges) saveWorkout(workout) }, 2 * 1000)
+      timer.current = setTimeout(() => { if (hasChanges) saveWorkout(workout) }, 10 * 1000)
     }
   }, [emittedChangeEvent, triggerChange, hasChanges])
   return (
