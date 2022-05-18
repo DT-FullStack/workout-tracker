@@ -3,12 +3,8 @@
   "version": "1.0.0",
   "description": "An app for tracking workouts, exercises, and progress",
   "main": "src/server.ts",
-  "engines": {
-    "node": "14.x",
-    "npm": "6.x"
-  },
   "scripts": {
-    "dev-client": "npm run build --prefix client",
+    "dev-client": "npm start --prefix client",
     "dev-server-watch": "tsc -w",
     "dev-server-start": "nodemon ./build/src/server.js",
     "dev": "concurrently npm:dev-*",

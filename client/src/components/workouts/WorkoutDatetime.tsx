@@ -7,7 +7,7 @@ import { AppDateTime } from '../utils/AppDateTime';
 import { startWorkout, endWorkout, clearStart, clearEnd } from '../../redux/actions/workout';
 import { IconButton } from 'components/utils/AppIconButton';
 import _ from 'lodash'
-import { DateTimePicker } from '@codewizard-dt/react-semantic-datetime-picker';
+import { DateTimePicker } from '@codewizard-dt/datetime-picker';
 
 const mapStateToProps = (state: RootState) => ({})
 
