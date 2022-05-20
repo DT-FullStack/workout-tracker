@@ -11,6 +11,7 @@ import GuestOnly from 'components/auth/GuestOnly';
 import NotFound from 'components/nav/NotFound';
 import CurrentWorkout from 'components/workouts/CurrentWorkout';
 import "./semantic/semantic.min.css";
+// import 'semantic-ui-css/semantic.min.css'
 import "./App.sass"
 import NewWorkout from 'components/workouts/NewWorkout';
 

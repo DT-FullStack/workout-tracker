@@ -40,7 +40,7 @@ const WorkoutDatetime = ({ workout, isEditable = true, compact, startWorkout, en
       <Card className='green'>
         {startTime
           ? <Card.Content textAlign='center'  >
-            <Card.Header><DateTimePicker initial={startTime.dt} /></Card.Header>
+            <Card.Header><DateTimePicker align='center' initial={startTime.dt} /></Card.Header>
             <Card.Meta content='Start Time' />
           </Card.Content>
           : <Button className='fill' color='green' content="Start" onClick={() => startWorkout(Date.now())} />
@@ -49,7 +49,7 @@ const WorkoutDatetime = ({ workout, isEditable = true, compact, startWorkout, en
       <Card color='red'>
         {endTime
           ? <Card.Content textAlign='center' >
-            <Card.Header content={<DateTimePicker initial={endTime.dt} />} />
+            <Card.Header content={<DateTimePicker align='center' initial={endTime.dt} />} />
             <Card.Meta content='End Time' />
             {reset(clearEnd)}
           </Card.Content>
